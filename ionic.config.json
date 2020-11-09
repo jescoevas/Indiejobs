@@ -1,0 +1,7 @@
+{
+  "name": "Indiejobs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
