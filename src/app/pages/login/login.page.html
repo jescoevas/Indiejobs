@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title mode="ios">Login</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="false">
+    <form (ngSubmit)="login()" [formGroup]="form" class="login-form" style="margin-top: 15%;">
+        <div>
+            <ion-avatar class="item-avatar-lg" style="margin: auto;">
+                <img src="assets/images/logo_1.jpeg" />
+            </ion-avatar>
+        </div>
+        <ion-list>
+            <ion-item>
+                <ion-label class="text-primary" position="floating">
+                    Email
+                    <small *ngIf="emailRequerido" class="text-danger">Email requerido</small>
+                    <small *ngIf="emailIncorrecto" class="text-danger">Email incorrecto</small>
+                </ion-label>
+                <ion-input class="text-primary" type="text" name="email" formControlName="email" (keyup)="emailIncorrecto = false"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label class="text-primary" position="floating">
+                    Contraseña
+                    <small *ngIf="passwordRequerido" class="text-danger">Contraseña requerida</small>
+                    <small *ngIf="passwordIncorrecta" class="text-danger">Contraseña incorrecta</small>
+                </ion-label>
+                <ion-input class="text-primary" type="password" name="password" formControlName="password" (keyup)="passwordIncorrecta = false"></ion-input>
+            </ion-item>
+            <ion-button type="submit" expand="block" fill="outline">
+                Iniciar sesión
+            </ion-button>
+            <div class="ion-padding" style="width: 100%; text-align: center;">
+                <ion-label routerLink="/registro" class="text-primary">¿No tienes cuenta? <br/> Regístrate ahora
+                    <ion-icon slot="endstart" name="caret-forward"></ion-icon>
+                </ion-label>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="primary">
+        <ion-title mode="ios">&copy; IndieJobs</ion-title>
+    </ion-toolbar>
+</ion-footer>
