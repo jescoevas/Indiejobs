@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-tabs',
@@ -9,14 +10,17 @@ import { Router } from '@angular/router';
 })
 export class TabsPage implements OnInit{
 
-  constructor(private menuController:MenuController, private router:Router) {}
+  foto:any = 'assets/images/avatar_vacio.png'
+
+  constructor(private menuController:MenuController, private router:Router, private usuarioService:UsuarioService) {}
 
   ngOnInit(){
     this.menuController.close()
+    this.foto = this.usuarioService.getFotoUsuario()
   }
 
   cerrarSesion(){
-    localStorage.removeItem('token')
+    this.usuarioService.cerrarSesion()
     this.router.navigateByUrl('/login')
   }
 }

@@ -7,8 +7,8 @@
 <ion-content>
     <form (ngSubmit)="submit()" [formGroup]="form" class="ion-padding">
         <div>
-            <ion-avatar class="item-avatar-lg" style="margin: auto;">
-                <img src="assets/images/avatar_vacio.png" />
+            <ion-avatar class="item-avatar-lg" style="margin: auto;" (click)="tomarFoto()">
+                <img [src]="imagen" />
             </ion-avatar>
         </div>
         <ion-list>

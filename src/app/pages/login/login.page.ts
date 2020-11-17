@@ -29,18 +29,14 @@ export class LoginPage {
     }
 
   async login(){
-    this.usuarioService.login(this.form.value).subscribe(data => {
-      const message = data['msg']
-      if(message === 'No se ha encontrado el usuario'){
-        this.emailIncorrecto = true
-      }else if(message === 'Password incorrecta'){
-        this.passwordIncorrecta = true
-      }else{
-        const token = data['token']
-        localStorage.setItem('token', token)
-        this.router.navigateByUrl('/')
-      }
-    })
+    const msg = await this.usuarioService.login(this.form.value)
+    if(msg === 'No se ha encontrado el usuario'){
+      this.emailIncorrecto = true
+    }else if(msg === 'Password incorrecta'){
+      this.passwordIncorrecta = true
+    }else{
+      this.router.navigateByUrl('/')
+    }
   }
 
 }
