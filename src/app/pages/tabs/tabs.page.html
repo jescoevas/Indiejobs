@@ -5,7 +5,7 @@
         </ion-buttons>
         <ion-title>IndieJobs</ion-title>
         <ion-avatar slot="end">
-            <img [src]="foto" />
+            <img [src]="foto | fotoprincipal" />
         </ion-avatar>
     </ion-toolbar>
 </ion-header>
@@ -18,7 +18,7 @@
             <ion-list>
                 <ion-item class="ion-padding" lines="none">
                     <ion-avatar class="item-avatar-lg">
-                        <img [src]="foto" />
+                        <img [src]="foto | fotoprincipal" />
                     </ion-avatar>
                 </ion-item>
                 <ion-item></ion-item>

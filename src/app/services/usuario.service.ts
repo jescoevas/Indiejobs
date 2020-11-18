@@ -10,24 +10,31 @@ const apiUrl = environment.apiUrl
 })
 export class UsuarioService {
 
-  foto:any = null
-
   constructor(private http:HttpClient) { }
 
-  registro(usuario:Usuario){
-    return this.http.post(`${apiUrl}/registro`,usuario)
+  registro(usuario:Usuario):Promise<Object>{
+    return new Promise<Object>(resolve => {
+      this.http.post(`${apiUrl}/registro`,usuario).subscribe(data => {
+        const msg = data['msg']
+        const token = data['token']
+        resolve({msg, token})
+      })
+    })
   }
 
-  asignarFoto(foto, token){
+  asignarFoto(foto:File, token:string):Promise<string>{
     const headers = new HttpHeaders({
       'x-token': token
     });
 
-    // let formData = new FormData()
-    // formData.append('foto', foto)
-    // console.log(foto)
-    // console.log(formData)
-    return this.http.post(`${apiUrl}/asignarFoto`, {foto}, {headers} )
+    let formData = new FormData()
+    formData.append('foto', foto, foto.name)
+    return new Promise<string>(resolve => {
+      this.http.post(`${apiUrl}/asignarFoto`, formData, {headers}).subscribe(data => {
+        const msg = data['msg']
+        resolve(msg)
+      })
+    })
   }
 
   login(data:any):Promise<string>{
@@ -36,7 +43,7 @@ export class UsuarioService {
         const msg = data['msg']
         if(msg === 'Login realizado con exito'){
           localStorage.setItem('token', data['token'])
-          localStorage.setItem('foto', data['foto'])
+          localStorage.setItem('usuarioId', data['usuarioId'])
         }
         resolve(msg)
       })
@@ -61,12 +68,7 @@ export class UsuarioService {
 
   cerrarSesion(){
     localStorage.removeItem('token')
-    localStorage.removeItem('foto')
-    this.foto = null
-  }
-
-  getFotoUsuario(){
-    return localStorage.getItem('foto')
+    localStorage.removeItem('usuarioId')
   }
 
 }

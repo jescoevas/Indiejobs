@@ -16,7 +16,6 @@ export class TabsPage implements OnInit{
 
   ngOnInit(){
     this.menuController.close()
-    this.foto = this.usuarioService.getFotoUsuario()
   }
 
   cerrarSesion(){

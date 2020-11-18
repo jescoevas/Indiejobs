@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario';
 import { Plugins, CameraResultType, CameraSource, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
+import { decode } from 'base64-arraybuffer'
 
 const { Camera, Filesystem } = Plugins
 
@@ -20,7 +21,7 @@ export class RegistroPage{
   form:FormGroup
   esTrabajador:boolean = false
   imagen:any = 'assets/images/avatar_vacio.png'
-  //imagenArchivo:any
+  imagenArchivo:File
 
   constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router, private sanitizer:DomSanitizer) { 
     this.iniciarForm()
@@ -189,50 +190,40 @@ export class RegistroPage{
 
   async tomarFoto(){
     const image = await Camera.getPhoto({
-      quality:100,
+      quality:40,
       allowEditing:false,
-      resultType:CameraResultType.DataUrl,
+      resultType:CameraResultType.Base64,
       source:CameraSource.Photos
     })
 
-    this.imagen = this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.dataUrl))
+    this.imagen = 'data:image/jpeg;base64,' + image.base64String;
+    const blob = new Blob([new Uint8Array(decode(image.base64String))], {
+      type: `image/${image.format}`,
+    })
+    const file = new File([blob], "foto", {
+      type: blob.type,
+    })
 
-    console.log('Foto tratada',this.imagen)
+    this.imagenArchivo = file
   }
 
   //Submit
-  submit(){
+  async submit(){
     if(this.form.valid){
-      // const foto = {
-      //   url:this.imagen.dataUrl,
-      //   extension:this.imagen.format
-      // }
       const usuario:Usuario = {
         ...this.form.value,
-        fechaRegistro:new Date(),
-        foto:this.imagen.changingThisBreaksApplicationSecurity
+        fechaRegistro:new Date()
       }
-      this.usuarioService.registro(usuario).subscribe(data => {
-        const msg = data['msg']
-        if(msg==='Registro realizado con exito'){
-          //   const token = data['token']
-          //   this.usuarioService.asignarFoto(this.imagenArchivo, token).subscribe(res => {
-          //     const mensaje = res['msg']
-          //     if( mensaje === 'Foto asignada'){
-          //       this.router.navigateByUrl('/login')
-          //     }else{
-          //       console.log('error al cargar la foto')
-          //       return;
-          //     }
-          //   })
-          // }
-          this.router.navigateByUrl('/login')
-        }else{
-          return ;
+      const data = await this.usuarioService.registro(usuario)
+      if(data['msg'] === 'Registro realizado con exito'){
+        if(this.imagen !== 'assets/images/avatar_vacio.png'){
+          await this.usuarioService.asignarFoto(this.imagenArchivo, data['token'])
         }
-      })
+        this.router.navigateByUrl('/login')
+      }else{
+        return ;
+      }
     }else{
-      console.log(this.form)
       this.form.markAllAsTouched()
     }
   }
