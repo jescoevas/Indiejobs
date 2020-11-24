@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { ListaUsuariosComponent } from './lista-usuarios/lista-usuarios.component';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
+import { ItemUsuarioComponent } from './item-usuario/item-usuario.component';
 
 
 
 @NgModule({
   declarations: [
-    ListaUsuariosComponent
+    ListaUsuariosComponent,
+    ItemUsuarioComponent
   ],
   exports:[
-    ListaUsuariosComponent
+    ListaUsuariosComponent,
+    ItemUsuarioComponent
   ],
   imports: [
     CommonModule,

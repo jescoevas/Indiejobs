@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
-import { FotoPrincipalPipe } from './foto.pipe';
+import { FotoPrincipalPipe } from './foto-principal.pipe';
+import { FotoPipe } from './foto.pipe';
 
 
 
 @NgModule({
   declarations: [
-    FotoPrincipalPipe
+    FotoPrincipalPipe,
+    FotoPipe
   ],
   exports:[
-    FotoPrincipalPipe
+    FotoPrincipalPipe,
+    FotoPipe
   ]
 })
 export class PipesModule { }

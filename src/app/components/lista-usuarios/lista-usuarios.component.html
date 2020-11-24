@@ -1,11 +1,3 @@
 <ion-list>
-    <ion-item lines="none" class="ion-padding " *ngFor="let trabajador of trabajadores" class="usuario-item" detail>
-        <ion-avatar class="item-avatar-md ">
-            <img src="../../../assets/images/avatar_vacio.png" />
-        </ion-avatar>
-        <ion-label class="ion-padding ">
-            <h1>{{trabajador.nombre}}</h1>
-            <h3>{{trabajador.empleo}}</h3>
-        </ion-label>
-    </ion-item>
+    <app-item-usuario [trabajador]="trabajador" *ngFor="let trabajador of trabajadores"></app-item-usuario>
 </ion-list>

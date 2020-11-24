@@ -1,15 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { environment } from '../../environments/environment.prod';
-
-const URL = environment.apiUrl
-const usuarioId = localStorage.getItem('usuarioId')
 
 @Pipe({
-  name: 'fotoprincipal'
+  name: 'foto'
 })
-export class FotoPrincipalPipe implements PipeTransform {
+export class FotoPipe implements PipeTransform {
 
-  transform( foto: string): string {
+  transform( usuarioId: string): string {
     return `${ URL }/${ usuarioId }/foto`;
   }
 

@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
+import { environment } from '../../../environments/environment';
+
+const URL = environment.apiUrl
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss']
 })
-export class TabsPage implements OnInit{
+export class TabsPage{
 
-  foto:any = 'assets/images/avatar_vacio.png'
+
+  foto:string = 'assets/images/avatar_vacio.png'
 
   constructor(private menuController:MenuController, private router:Router, private usuarioService:UsuarioService) {}
 
-  ngOnInit(){
-    this.menuController.close()
-  }
-
   cerrarSesion(){
     this.usuarioService.cerrarSesion()
+    this.menuController.close()
     this.router.navigateByUrl('/login')
+  }
+
+  ionViewWillEnter() {
+    const usuarioId = localStorage.getItem('usuarioId')
+    this.foto = `${ URL }/${ usuarioId }/foto`
   }
 }
