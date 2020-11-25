@@ -10,10 +10,8 @@ const usuarioId = localStorage.getItem('usuarioId')
 export class FotoPrincipalPipe implements PipeTransform {
 
   transform( foto: string): string {
-    const avatar:string = 'assets/images/avatar_vacio.png'
-    if(foto === null) return avatar
-    const esNull = foto.includes('null')
-    return esNull ? avatar : foto
+    console.log(foto)
+    return foto === 'assets/images/avatar_vacio.png' ? 'assets/images/avatar_vacio.png' : foto
   }
 
 }

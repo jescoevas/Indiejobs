@@ -12,9 +12,28 @@ export class UsuarioService {
 
   constructor(private http:HttpClient) { }
 
+  getUsuario(usuarioId:string):Promise<Usuario>{
+    return new Promise<Usuario>(resolve => {
+      this.http.get(`${apiUrl}/usuario/${usuarioId}`).subscribe(data => {
+        const usuario = data['usuario']
+        resolve(usuario)
+      })
+    })
+  }
+
   registro(usuario:Usuario):Promise<Object>{
     return new Promise<Object>(resolve => {
       this.http.post(`${apiUrl}/registro`,usuario).subscribe(data => {
+        const msg = data['msg']
+        const token = data['token']
+        resolve({msg, token})
+      })
+    })
+  }
+
+  editar(usuario:Usuario):Promise<Object>{
+    return new Promise<Object>(resolve => {
+      this.http.put(`${apiUrl}/editar`,usuario).subscribe(data => {
         const msg = data['msg']
         const token = data['token']
         resolve({msg, token})
@@ -44,22 +63,38 @@ export class UsuarioService {
         if(msg === 'Login realizado con exito'){
           localStorage.setItem('token', data['token'])
           localStorage.setItem('usuarioId', data['usuarioId'])
+          localStorage.setItem('foto', data['foto'])
         }
         resolve(msg)
       })
     })
   }
 
-  getTrabajadores(){
-    return this.http.get(`${apiUrl}/trabajadores`)
+  getTrabajadores():Promise<Usuario[]>{
+    return new Promise<Usuario[]>(resolve => {
+      this.http.get(`${apiUrl}/trabajadores`).subscribe(data => {
+        const trabajadores = data['trabajadores']
+        resolve(trabajadores)
+      })
+    })
   }
 
-  checkEmail(email:string){
-    return this.http.post(`${apiUrl}/checkEmail`, {email})
+  checkEmail(email:string):Promise<number>{
+    return new Promise<number>(resolve => {
+      this.http.post(`${apiUrl}/checkEmail`, {email}).subscribe(data => {
+        const num = data['num']
+        resolve(num)
+      })
+    })
   }
 
-  checkTelefono(telefono:string){
-    return this.http.post(`${apiUrl}/checkTelefono`, {telefono})
+  checkTelefono(telefono:string):Promise<number>{
+    return new Promise<number>(resolve => {
+      this.http.post(`${apiUrl}/checkTelefono`, {telefono}).subscribe(data => {
+        const num = data['num']
+        resolve(num)
+      })
+    })
   }
 
   sesionIniciada(){
@@ -67,8 +102,7 @@ export class UsuarioService {
   }
 
   cerrarSesion(){
-    localStorage.removeItem('token')
-    localStorage.removeItem('usuarioId')
+    localStorage.clear()
   }
 
 }

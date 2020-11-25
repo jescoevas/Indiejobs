@@ -20,12 +20,18 @@ export class TabsPage{
 
   cerrarSesion(){
     this.usuarioService.cerrarSesion()
-    this.menuController.close()
     this.router.navigateByUrl('/login')
+  }
+
+  ionViewWillLeave() {
+    this.menuController.close()
   }
 
   ionViewWillEnter() {
     const usuarioId = localStorage.getItem('usuarioId')
-    this.foto = `${ URL }/${ usuarioId }/foto`
+    const fotoUsuario = localStorage.getItem('foto')
+    if(fotoUsuario !== this.foto){
+      this.foto = `${ URL }/${ usuarioId }/foto`
+    }
   }
 }

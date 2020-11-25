@@ -13,8 +13,8 @@ export class Tab1Page implements OnInit{
 
   constructor(private usuarioService:UsuarioService) {}
 
-  ngOnInit(){
-    this.usuarioService.getTrabajadores().subscribe(data => this.trabajadores = data['trabajadores'])
+  async ngOnInit(){
+    this.trabajadores = await this.usuarioService.getTrabajadores()
   }
 
 }

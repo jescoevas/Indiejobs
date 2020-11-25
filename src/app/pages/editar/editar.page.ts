@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
@@ -6,42 +6,68 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../../models/usuario';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core'
 import { decode } from 'base64-arraybuffer'
+import { environment } from 'src/environments/environment';
 
 const { Camera } = Plugins
+const URL = environment.apiUrl
 
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
+  selector: 'app-editar',
+  templateUrl: './editar.page.html',
+  styleUrls: ['./editar.page.scss'],
 })
-export class RegistroPage{
+export class EditarPage implements OnInit{
 
+  usuario:Usuario
+  formularioActivo:boolean = false
   form:FormGroup
   esTrabajador:boolean = false
-  imagen:any = 'assets/images/avatar_vacio.png'
+  imagen:any
   imagenArchivo:File
 
-  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router) { 
-    this.iniciarForm()
+  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router) {}
+
+  async ngOnInit(){
+    this.usuario = await this.usuarioService.getUsuario(localStorage.getItem('usuarioId'))
+    if(this.usuario.trabajador){
+      this.iniciarFormTrabajador()
+    }else{
+      this.iniciarFormNoTrabajador()
+    }
+    this.imagen = `${ URL }/${ this.usuario._id }/foto`
+    
   }
 
-  ionViewWillEnter() {
-    this.iniciarForm()
-    this.imagen = 'assets/images/avatar_vacio.png'
-  }
-
-  iniciarForm(){
+  iniciarFormNoTrabajador(){
+    this.formularioActivo = true
+    this.esTrabajador = false
     this.form = this.fb.group({
-      nombre:['', [Validators.required, Validators.minLength(4)]],
-      email:['', [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      password:['', [Validators.required, Validators.minLength(4)]],
-      fechaNacimiento:['', [Validators.required]],
-      telefono:['', [this.checkTelefono], [this.checkTelefonoEnUso]],
-      ciudad:['', [Validators.required]],
-      direccion:['', [Validators.required]],
-      codigoPostal:['', [Validators.required, this.checkNumerico]],
+      nombre:[this.usuario.nombre, [Validators.required, Validators.minLength(4)]],
+      email:[this.usuario.email, [Validators.required, Validators.email], [this.checkEmailEnUso]],
+      fechaNacimiento:[this.usuario.fechaNacimiento, [Validators.required]],
+      telefono:[this.usuario.telefono, [this.checkTelefono], [this.checkTelefonoEnUso]],
+      ciudad:[this.usuario.ciudad, [Validators.required]],
+      direccion:[this.usuario.direccion, [Validators.required]],
+      codigoPostal:[this.usuario.codigoPostal, [Validators.required, this.checkNumerico]],
       trabajador:[false]
+    })
+  }
+
+  iniciarFormTrabajador(){
+    this.formularioActivo = true
+    this.esTrabajador = true
+    this.form = this.fb.group({
+      nombre:[this.usuario.nombre, [Validators.required, Validators.minLength(4)]],
+      email:[this.usuario.email, [Validators.required, Validators.email], [this.checkEmailEnUso]],
+      fechaNacimiento:[this.usuario.fechaNacimiento, [Validators.required]],
+      telefono:[this.usuario.telefono, [this.checkTelefono], [this.checkTelefonoEnUso]],
+      ciudad:[this.usuario.ciudad, [Validators.required]],
+      direccion:[this.usuario.direccion, [Validators.required]],
+      codigoPostal:[this.usuario.codigoPostal, [Validators.required, this.checkNumerico]],
+      trabajador:[true],
+      empleo:[this.usuario.empleo, [Validators.required]],
+      descripcion:[this.usuario.descripcion, [Validators.required]],
     })
   }
 
@@ -49,7 +75,6 @@ export class RegistroPage{
     this.form = this.fb.group({
       nombre:[value['nombre'] || '', [Validators.required, Validators.minLength(4)]],
       email:[value['email'] || '', [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      password:[value['password'] || '', [Validators.required, Validators.minLength(4)]],
       fechaNacimiento:[value['fechaNacimiento'] || '', [Validators.required]],
       telefono:[value['telefono'] || '', [this.checkTelefono], [this.checkTelefonoEnUso]],
       ciudad:[value['ciudad'] || '', [Validators.required]],
@@ -63,7 +88,6 @@ export class RegistroPage{
     this.form = this.fb.group({
       nombre:[value['nombre'], [Validators.required, Validators.minLength(4)]],
       email:[value['email'], [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      password:[value['password'], [Validators.required, Validators.minLength(4)]],
       fechaNacimiento:[value['fechaNacimiento'], [Validators.required]],
       telefono:[value['telefono'], [this.checkTelefono], [this.checkTelefonoEnUso]],
       ciudad:[value['ciudad'], [Validators.required]],
@@ -90,12 +114,6 @@ export class RegistroPage{
   }
   get emailEnUso(){
     return this.form.get('email').errors ? this.form.get('email').errors.emailEnUso && this.form.get('email').touched : null
-  }
-  get passwordRequerido(){
-    return this.form.get('password').errors ? this.form.get('password').errors.required && this.form.get('password').touched : null
-  }
-  get passwordLongitud(){
-    return this.form.get('password').errors ? this.form.get('password').errors.minlength && this.form.get('password').touched : null
   }
   get telefonoDebeSerNumerico(){
     return this.form.get('telefono').errors ? this.form.get('telefono').errors.debeSerNumerico && this.form.get('telefono').touched : null
@@ -149,7 +167,7 @@ export class RegistroPage{
     return new Promise(resolve => {
       setTimeout(async () => {
         const num = await this.usuarioService.checkEmail(control.value)
-        if(num > 0)resolve({emailEnUso:true})
+        if(num > 0 && control.value !== this.usuario.email)resolve({emailEnUso:true})
         else resolve(null)
       }, 1500);
     })
@@ -159,7 +177,7 @@ export class RegistroPage{
     return new Promise(resolve => {
       setTimeout(async () => {
         const num = await this.usuarioService.checkTelefono(control.value)
-        if(num > 0) resolve({telefonoEnUso:true})
+        if(num > 0 && control.value !== this.usuario.telefono) resolve({telefonoEnUso:true})
         else resolve(null)
       }, 1500);
     })
@@ -182,7 +200,7 @@ export class RegistroPage{
   async tomarFoto(){
     const image = await Camera.getPhoto({
       quality:40,
-      allowEditing:true,
+      allowEditing:false,
       resultType:CameraResultType.Base64,
       source:CameraSource.Photos
     })
@@ -201,20 +219,20 @@ export class RegistroPage{
   //Submit
   async submit(){
     if(this.form.valid){
-      const usuario:Usuario = {
-        ...this.form.value,
-        fechaRegistro:new Date(),
-        foto:'assets/images/avatar_vacio.png'
-      }
-      const data = await this.usuarioService.registro(usuario)
-      if(data['msg'] === 'Registro realizado con exito'){
-        if(this.imagen !== 'assets/images/avatar_vacio.png'){
-          await this.usuarioService.asignarFoto(this.imagenArchivo, data['token'])
-        }
-        this.router.navigateByUrl('/login')
-      }else{
-        return ;
-      }
+      console.log(this.form)
+      // const usuario:Usuario = {
+      //   ...this.form.value,
+      //   id:this.usuario._id
+      // }
+      // const data = await this.usuarioService.editar(usuario)
+      // if(data['msg'] === 'Edicion realizada con exito'){
+      //   if(this.imagen !== 'assets/images/avatar_vacio.png'){
+      //     await this.usuarioService.asignarFoto(this.imagenArchivo, data['token'])
+      //   }
+      //   this.router.navigateByUrl('/login')
+      // }else{
+      //   return ;
+      // }
     }else{
       this.form.markAllAsTouched()
     }

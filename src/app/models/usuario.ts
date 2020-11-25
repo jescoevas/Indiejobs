@@ -1,6 +1,6 @@
 export interface Usuario{
-    _id:string,
-    fechaRegistro:Date,
+    _id?:string,
+    fechaRegistro?:Date,
     foto?:string,
     nombre:string,
     email:string,

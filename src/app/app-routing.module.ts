@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'registro',
     canActivate:[LoginGuard],
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'editar',
+    loadChildren: () => import('./pages/editar/editar.module').then( m => m.EditarPageModule)
   }
 ];
 @NgModule({

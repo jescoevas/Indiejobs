@@ -17,7 +17,13 @@ export class ItemUsuarioComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.foto = `${ URL }/${ this.trabajador._id }/foto`
+    this.cargarFoto()
+  }
+
+  cargarFoto(){
+    if(this.trabajador.foto !== this.foto){
+      this.foto = `${ URL }/${ this.trabajador._id }/foto`
+    }
   }
 
 }
