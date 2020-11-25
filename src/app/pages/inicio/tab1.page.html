@@ -1,3 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title><strong>Profesionales cercanos a ti</strong></ion-title>
+    </ion-toolbar>
+</ion-header>
 <ion-content>
-    <app-lista-usuarios [trabajadores]="trabajadores"></app-lista-usuarios>
+    <ng-container *ngIf="trabajadores.length > 0; else elseTemplate">
+        <app-lista-usuarios [trabajadores]="trabajadores"></app-lista-usuarios>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <div class="ion-padding">
+            <ion-text>
+                <h4>No hay profesionales en tu ciudad</h4>
+            </ion-text>
+        </div>
+    </ng-template>
+
 </ion-content>

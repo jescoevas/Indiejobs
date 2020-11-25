@@ -7,6 +7,7 @@ import { Usuario } from '../../models/usuario';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core'
 import { decode } from 'base64-arraybuffer'
 import { environment } from 'src/environments/environment';
+import { ToastController } from '@ionic/angular';
 
 const { Camera } = Plugins
 const URL = environment.apiUrl
@@ -26,32 +27,13 @@ export class EditarPage implements OnInit{
   imagen:any
   imagenArchivo:File
 
-  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router) {}
+  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router,
+    private toastController:ToastController) {}
 
   async ngOnInit(){
     this.usuario = await this.usuarioService.getUsuario(localStorage.getItem('usuarioId'))
-    if(this.usuario.trabajador){
-      this.iniciarFormTrabajador()
-    }else{
-      this.iniciarFormNoTrabajador()
-    }
+    this.iniciarFormTrabajador()
     this.imagen = `${ URL }/${ this.usuario._id }/foto`
-    
-  }
-
-  iniciarFormNoTrabajador(){
-    this.formularioActivo = true
-    this.esTrabajador = false
-    this.form = this.fb.group({
-      nombre:[this.usuario.nombre, [Validators.required, Validators.minLength(4)]],
-      email:[this.usuario.email, [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      fechaNacimiento:[this.usuario.fechaNacimiento, [Validators.required]],
-      telefono:[this.usuario.telefono, [this.checkTelefono], [this.checkTelefonoEnUso]],
-      ciudad:[this.usuario.ciudad, [Validators.required]],
-      direccion:[this.usuario.direccion, [Validators.required]],
-      codigoPostal:[this.usuario.codigoPostal, [Validators.required, this.checkNumerico]],
-      trabajador:[false]
-    })
   }
 
   iniciarFormTrabajador(){
@@ -68,34 +50,6 @@ export class EditarPage implements OnInit{
       trabajador:[true],
       empleo:[this.usuario.empleo, [Validators.required]],
       descripcion:[this.usuario.descripcion, [Validators.required]],
-    })
-  }
-
-  iniciarFormConValores(value:any){
-    this.form = this.fb.group({
-      nombre:[value['nombre'] || '', [Validators.required, Validators.minLength(4)]],
-      email:[value['email'] || '', [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      fechaNacimiento:[value['fechaNacimiento'] || '', [Validators.required]],
-      telefono:[value['telefono'] || '', [this.checkTelefono], [this.checkTelefonoEnUso]],
-      ciudad:[value['ciudad'] || '', [Validators.required]],
-      direccion:[value['direccion'] || '', [Validators.required]],
-      codigoPostal:[value['codigoPostal'] || '', [Validators.required, this.checkNumerico]],
-      trabajador:[false]
-    })
-  }
-
-  trabajadorForm(value:any){
-    this.form = this.fb.group({
-      nombre:[value['nombre'], [Validators.required, Validators.minLength(4)]],
-      email:[value['email'], [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      fechaNacimiento:[value['fechaNacimiento'], [Validators.required]],
-      telefono:[value['telefono'], [this.checkTelefono], [this.checkTelefonoEnUso]],
-      ciudad:[value['ciudad'], [Validators.required]],
-      direccion:[value['direccion'], [Validators.required]],
-      codigoPostal:[value['codigoPostal'], [Validators.required, this.checkNumerico]],
-      trabajador:[true],
-      empleo:['', [Validators.required]],
-      descripcion:['', [Validators.required]],
     })
   }
 
@@ -185,18 +139,6 @@ export class EditarPage implements OnInit{
 
 
   //Auxiliares
-  change(event){
-    this.form.value.trabajador = event.detail.checked
-    const {trabajador} = this.form.value
-    if(trabajador){
-      this.trabajadorForm(this.form.value)
-      this.esTrabajador = true
-    }else{
-      this.iniciarFormConValores(this.form.value)
-      this.esTrabajador = false
-    }
-  }
-
   async tomarFoto(){
     const image = await Camera.getPhoto({
       quality:40,
@@ -219,23 +161,37 @@ export class EditarPage implements OnInit{
   //Submit
   async submit(){
     if(this.form.valid){
-      console.log(this.form)
-      // const usuario:Usuario = {
-      //   ...this.form.value,
-      //   id:this.usuario._id
-      // }
-      // const data = await this.usuarioService.editar(usuario)
-      // if(data['msg'] === 'Edicion realizada con exito'){
-      //   if(this.imagen !== 'assets/images/avatar_vacio.png'){
-      //     await this.usuarioService.asignarFoto(this.imagenArchivo, data['token'])
-      //   }
-      //   this.router.navigateByUrl('/login')
-      // }else{
-      //   return ;
-      // }
+      const usuario:Usuario = {
+        ...this.form.value,
+        id:this.usuario._id,
+        emailUsuario:this.usuario.email,
+        telefonoUsuario:this.usuario.telefono
+      }
+      const data = await this.usuarioService.editar(usuario)
+      if(data['msg'] === 'Edicion realizada con exito'){
+        const toast = await this.toastController.create({
+          message: 'Datos actualizados',
+          duration: 2000,
+          color:'success'
+        });
+        toast.present();
+        this.router.navigateByUrl('/')
+      }else{
+        return ;
+      }
     }else{
       this.form.markAllAsTouched()
     }
+  }
+
+  async cambiarFoto() {
+    await this.usuarioService.asignarFoto(this.imagenArchivo, localStorage.getItem('token'))
+    const toast = await this.toastController.create({
+      message: 'Foto actualizada',
+      duration: 2000,
+      color:'success'
+    });
+    toast.present();
   }
 
 }

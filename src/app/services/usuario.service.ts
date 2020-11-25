@@ -36,7 +36,7 @@ export class UsuarioService {
       this.http.put(`${apiUrl}/editar`,usuario).subscribe(data => {
         const msg = data['msg']
         const token = data['token']
-        resolve({msg, token})
+        resolve({msg})
       })
     })
   }
@@ -74,6 +74,19 @@ export class UsuarioService {
     return new Promise<Usuario[]>(resolve => {
       this.http.get(`${apiUrl}/trabajadores`).subscribe(data => {
         const trabajadores = data['trabajadores']
+        resolve(trabajadores)
+      })
+    })
+  }
+
+  getTrabajadoresCercanos():Promise<Usuario[]>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+
+    return new Promise<Usuario[]>(resolve => {
+      this.http.get(`${apiUrl}/trabajadores/cercanos`, {headers}).subscribe(data => {
+        const trabajadores = data['cercanos']
         resolve(trabajadores)
       })
     })
