@@ -31,22 +31,23 @@ export class LoginPage {
     }
 
   async login(){
-    const loading = await this.loading.create({
-      // cssClass: 'my-custom-class',
-      message: 'Por favor, espere...',
-      // duration: 2000
-    });
-    await loading.present();
-
-    const msg = await this.usuarioService.login(this.form.value)
-    if(msg === 'No se ha encontrado el usuario'){
-      this.emailIncorrecto = true
-    }else if(msg === 'Password incorrecta'){
-      this.passwordIncorrecta = true
+    if(this.form.valid){
+      const loading = await this.loading.create({message: 'Por favor, espere...'});
+      await loading.present();
+  
+      const msg = await this.usuarioService.login(this.form.value)
+      if(msg === 'No se ha encontrado el usuario'){
+        this.emailIncorrecto = true
+      }else if(msg === 'Password incorrecta'){
+        this.passwordIncorrecta = true
+      }else{
+        this.router.navigateByUrl('/')
+      }
+      
+      await loading.dismiss()
     }else{
-      this.router.navigateByUrl('/')
+      this.form.markAllAsTouched()
     }
-    await loading.dismiss()
   }
 
 }
