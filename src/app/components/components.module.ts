@@ -7,6 +7,7 @@ import { ItemUsuarioComponent } from './item-usuario/item-usuario.component';
 import { FormTrabajadorComponent } from './form-trabajador/form-trabajador.component';
 import { FormUsuarioComponent } from './form-usuario/form-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormUsuarioEdicionComponent } from './form-usuario-edicion/form-usuario-edicion.component';
 
 
 
@@ -15,13 +16,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ListaUsuariosComponent,
     ItemUsuarioComponent,
     FormTrabajadorComponent,
-    FormUsuarioComponent
+    FormUsuarioComponent,
+    FormUsuarioEdicionComponent
   ],
   exports:[
     ListaUsuariosComponent,
     ItemUsuarioComponent,
     FormTrabajadorComponent,
-    FormUsuarioComponent
+    FormUsuarioComponent,
+    FormUsuarioEdicionComponent
   ],
   imports: [
     CommonModule,

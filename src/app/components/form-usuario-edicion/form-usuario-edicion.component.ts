@@ -1,53 +1,80 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Usuario } from '../../models/usuario';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
 import { decode } from 'base64-arraybuffer';
+import { CameraSource, CameraResultType, Camera } from '@capacitor/core';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
+import { ToastController } from '@ionic/angular';
 
 const URL = environment.apiUrl
 
 @Component({
-  selector: 'app-form-trabajador',
-  templateUrl: './form-trabajador.component.html',
-  styleUrls: ['./form-trabajador.component.scss'],
+  selector: 'app-form-usuario-edicion',
+  templateUrl: './form-usuario-edicion.component.html',
+  styleUrls: ['./form-usuario-edicion.component.scss'],
 })
-export class FormTrabajadorComponent implements OnInit {
+export class FormUsuarioEdicionComponent implements OnInit{
 
-  @Input() usuario:Usuario
-  @Output() emiteDatos = new EventEmitter<Object>()
-  formularioActivo:boolean = false
   form:FormGroup
   esTrabajador:boolean = false
   imagen:any
   imagenArchivo:File
+  @Output() emiteDatos = new EventEmitter<Object>()
+  @Input() usuario:Usuario
+  formularioActivo:boolean = false
 
-  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router,
-    private toastController:ToastController) {}
+  constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router, private toastController:ToastController) { }
 
   async ngOnInit(){
-    this.iniciarFormTrabajador()
+    this.iniciarForm()
     this.imagen = `${ URL }/${ this.usuario._id }/foto`
   }
 
-  iniciarFormTrabajador(){
+  iniciarForm(){
     this.formularioActivo = true
-    this.esTrabajador = true
     this.form = this.fb.group({
       nombre:[this.usuario.nombre, [Validators.required, Validators.minLength(4)]],
       email:[this.usuario.email, [Validators.required, Validators.email], [this.checkEmailEnUso]],
+      password:[this.usuario.password, [Validators.required, Validators.minLength(4)]],
       fechaNacimiento:[this.usuario.fechaNacimiento, [Validators.required]],
       telefono:[this.usuario.telefono, [this.checkTelefono], [this.checkTelefonoEnUso]],
       ciudad:[this.usuario.ciudad, [Validators.required]],
       direccion:[this.usuario.direccion, [Validators.required]],
       codigoPostal:[this.usuario.codigoPostal, [Validators.required, this.checkNumerico]],
+      trabajador:[false]
+    })
+  }
+
+  iniciarFormConValores(value:any){
+    this.form = this.fb.group({
+      nombre:[value['nombre'] || '', [Validators.required, Validators.minLength(4)]],
+      email:[value['email'] || '', [Validators.required, Validators.email], [this.checkEmailEnUso]],
+      password:[value['password'] || '', [Validators.required, Validators.minLength(4)]],
+      fechaNacimiento:[value['fechaNacimiento'] || '', [Validators.required]],
+      telefono:[value['telefono'] || '', [this.checkTelefono], [this.checkTelefonoEnUso]],
+      ciudad:[value['ciudad'] || '', [Validators.required]],
+      direccion:[value['direccion'] || '', [Validators.required]],
+      codigoPostal:[value['codigoPostal'] || '', [Validators.required, this.checkNumerico]],
+      trabajador:[false]
+    })
+  }
+
+  trabajadorForm(value:any){
+    this.form = this.fb.group({
+      nombre:[value['nombre'], [Validators.required, Validators.minLength(4)]],
+      email:[value['email'], [Validators.required, Validators.email], [this.checkEmailEnUso]],
+      password:[value['password'], [Validators.required, Validators.minLength(4)]],
+      fechaNacimiento:[value['fechaNacimiento'], [Validators.required]],
+      telefono:[value['telefono'], [this.checkTelefono], [this.checkTelefonoEnUso]],
+      ciudad:[value['ciudad'], [Validators.required]],
+      direccion:[value['direccion'], [Validators.required]],
+      codigoPostal:[value['codigoPostal'], [Validators.required, this.checkNumerico]],
       trabajador:[true],
-      empleo:[this.usuario.empleo, [Validators.required]],
-      descripcion:[this.usuario.descripcion, [Validators.required]],
+      empleo:['', [Validators.required]],
+      descripcion:['', [Validators.required]],
     })
   }
 
@@ -66,6 +93,12 @@ export class FormTrabajadorComponent implements OnInit {
   }
   get emailEnUso(){
     return this.form.get('email').errors ? this.form.get('email').errors.emailEnUso && this.form.get('email').touched : null
+  }
+  get passwordRequerido(){
+    return this.form.get('password').errors ? this.form.get('password').errors.required && this.form.get('password').touched : null
+  }
+  get passwordLongitud(){
+    return this.form.get('password').errors ? this.form.get('password').errors.minlength && this.form.get('password').touched : null
   }
   get telefonoDebeSerNumerico(){
     return this.form.get('telefono').errors ? this.form.get('telefono').errors.debeSerNumerico && this.form.get('telefono').touched : null
@@ -137,6 +170,18 @@ export class FormTrabajadorComponent implements OnInit {
 
 
   //Auxiliares
+  change(event){
+    this.form.value.trabajador = event.detail.checked
+    const {trabajador} = this.form.value
+    if(trabajador){
+      this.trabajadorForm(this.form.value)
+      this.esTrabajador = true
+    }else{
+      this.iniciarFormConValores(this.form.value)
+      this.esTrabajador = false
+    }
+  }
+
   async tomarFoto(){
     const image = await Camera.getPhoto({
       quality:40,

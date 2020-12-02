@@ -8,5 +8,6 @@
 </ion-header>
 
 <ion-content>
-    <app-form-trabajador *ngIf="usuario && usuario.trabajador" [usuario]="usuario" (emiteDatos)="recibeDatosTrabajador($event)"></app-form-trabajador>
+    <app-form-trabajador *ngIf="usuario && usuario.trabajador" [usuario]="usuario" (emiteDatos)="recibeDatos($event)"></app-form-trabajador>
+    <app-form-usuario-edicion *ngIf="usuario && !usuario.trabajador" [usuario]="usuario" (emiteDatos)="recibeDatos($event)"></app-form-usuario-edicion>
 </ion-content>

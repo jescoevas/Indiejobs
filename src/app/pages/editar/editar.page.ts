@@ -21,7 +21,7 @@ export class EditarPage implements OnInit{
     this.usuario = await this.usuarioService.getUsuario(localStorage.getItem('usuarioId'))
   }
 
-  async recibeDatosTrabajador(datos:Usuario){
+  async recibeDatos(datos:Usuario){
     const data = await this.usuarioService.editar(datos)
       if(data['msg'] === 'Edicion realizada con exito'){
         const toast = await this.toastController.create({
@@ -34,10 +34,6 @@ export class EditarPage implements OnInit{
       }else{
         return ;
       }
-  }
-
-  async recibeDatosUsuario(datos:Usuario){
-    
   }
 
 }

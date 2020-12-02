@@ -30,17 +30,17 @@ export class FormUsuarioComponent{
   }
 
   iniciarForm(){
-    this.form = this.fb.group({
-      nombre:['', [Validators.required, Validators.minLength(4)]],
-      email:['', [Validators.required, Validators.email], [this.checkEmailEnUso]],
-      password:['', [Validators.required, Validators.minLength(4)]],
-      fechaNacimiento:['', [Validators.required]],
-      telefono:['', [this.checkTelefono], [this.checkTelefonoEnUso]],
-      ciudad:['', [Validators.required]],
-      direccion:['', [Validators.required]],
-      codigoPostal:['', [Validators.required, this.checkNumerico]],
-      trabajador:[false]
-    })
+      this.form = this.fb.group({
+        nombre:['', [Validators.required, Validators.minLength(4)]],
+        email:['', [Validators.required, Validators.email], [this.checkEmailEnUso]],
+        password:['', [Validators.required, Validators.minLength(4)]],
+        fechaNacimiento:['', [Validators.required]],
+        telefono:['', [this.checkTelefono], [this.checkTelefonoEnUso]],
+        ciudad:['', [Validators.required]],
+        direccion:['', [Validators.required]],
+        codigoPostal:['', [Validators.required, this.checkNumerico]],
+        trabajador:[false]
+      })
   }
 
   iniciarFormConValores(value:any){
