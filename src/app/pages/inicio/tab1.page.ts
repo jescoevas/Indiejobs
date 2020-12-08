@@ -16,9 +16,12 @@ export class Tab1Page implements OnInit, OnDestroy {
   async ngOnInit(){
     this.trabajadores = await this.usuarioService.getTrabajadoresCercanos()
   }
-
-  async ionViewWillEnter() {
-    this.trabajadores = await this.usuarioService.getTrabajadoresCercanos()
+  
+  refresh(event){
+    setTimeout(async() => {
+      this.trabajadores = await this.usuarioService.getTrabajadoresCercanos()
+      event.target.complete();
+    }, 1000);
   }
   
   ngOnDestroy(){

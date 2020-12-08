@@ -4,6 +4,9 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ng-container *ngIf="trabajadores.length > 0; else elseTemplate">
         <app-lista-usuarios [trabajadores]="trabajadores"></app-lista-usuarios>
     </ng-container>
