@@ -38,9 +38,7 @@ describe('Página de inicio', () => {
 
   it('Init: Obtiene los trabajadores cercanos', () => {
     const trabajadores:Usuario[] = [{_id:'1', nombre:'Jesus'}, {_id:'2', nombre:'Marta'}]
-    spyOn(servicio, 'getTrabajadoresCercanos').and.callFake(() => {
-      return Promise.resolve(trabajadores)
-    })
+    spyOn(servicio, 'getTrabajadoresCercanos').and.callFake(() => Promise.resolve(trabajadores))
     component.ngOnInit()
     expect(servicio.getTrabajadoresCercanos).toHaveBeenCalled()
     fixture.whenStable().then(() => {
