@@ -1,16 +1,33 @@
-<ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-title>
-            Tab 2
-        </ion-title>
-    </ion-toolbar>
+<ion-header>
+    <form (ngSubmit)="buscar()">
+        <ion-grid fixed>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label class="text-primary" position="floating">Empleo</ion-label>
+                        <ion-input type="text" name="empleo" [(ngModel)]="datos.empleo" #empleo="ngModel"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label class="text-primary" position="floating">Ciudad</ion-label>
+                        <ion-input type="text" name="ciudad" [(ngModel)]="datos.ciudad" #ciudad="ngModel"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-button id="submit" type="submit" expand="block" fill="outline">
+                        Buscar
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-        <ion-toolbar>
-            <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-    </ion-header>
+<ion-content>
+    <app-lista-usuarios [trabajadores]="trabajadores"></app-lista-usuarios>
+    <p style="text-align: center;" *ngIf="enviado && trabajadores.length === 0">No se han encontrado trabajadores</p>
 
 </ion-content>

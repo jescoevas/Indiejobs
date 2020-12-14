@@ -92,6 +92,19 @@ export class UsuarioService {
     })
   }
 
+  getTrabajadoresBuscador(datos:any):Promise<Usuario[]>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+
+    return new Promise<Usuario[]>(resolve => {
+      this.http.post(`${apiUrl}/buscador`, datos, {headers}).subscribe(data => {
+        const trabajadores = data['trabajadores']
+        resolve(trabajadores)
+      })
+    })
+  }
+
   checkEmail(email:string):Promise<number>{
     return new Promise<number>(resolve => {
       this.http.post(`${apiUrl}/checkEmail`, {email}).subscribe(data => {
