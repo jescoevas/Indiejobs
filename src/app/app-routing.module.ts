@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'editar',
     loadChildren: () => import('./pages/editar/editar.module').then( m => m.EditarPageModule)
+  },
+  {
+    path: 'perfil/:id',
+    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   }
 ];
 @NgModule({

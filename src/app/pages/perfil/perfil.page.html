@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title mode="ios" *ngIf="usuario">{{usuario.nombre}}</ion-title>
+    </ion-toolbar>
+    <div *ngIf="usuario" style="text-align: center; margin-top: 10%;">
+        <div>
+            <ion-fab horizontal="end" slot="fixed">
+                <ion-fab-button>
+                    <ion-icon name="ellipsis-vertical"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="bottom">
+                    <ion-fab-button>
+                        <ion-icon name="share-social"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button>
+                        <ion-icon name="send"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button>
+                        <ion-icon name="create"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab-list>
+            </ion-fab>
+        </div>
+        <ion-avatar class="item-avatar-lg" style="margin: auto;">
+            <img [src]="imagen" />
+        </ion-avatar>
+        <h1>{{usuario.empleo}} ({{usuario.ciudad}})</h1>
+        <h5>Se unió en {{usuario.fechaRegistro | date}}</h5>
+        <h5>
+            45
+            <ion-icon name="star"></ion-icon>
+        </h5>
+    </div>
+    <ion-segment scrollable color="primary">
+        <ion-segment-button *ngFor="let apartado of apartados" [value]="apartado">
+            <ion-label text-capitalize>{{apartado}}</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="usuario">
+        <div *ngIf="segmento.value == 'Perfil'">
+            El buen perfil
+        </div>
+        <div *ngIf="segmento.value == 'Trabajos'">
+            El buen trabajo
+        </div>
+        <div *ngIf="segmento.value == 'Reseñas'">
+            La buena reseña
+        </div>
+    </div>
+</ion-content>

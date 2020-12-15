@@ -34,4 +34,8 @@ export class TabsPage{
       this.foto = `${ URL }/${ usuarioId }/foto`
     }
   }
+
+  perfil(){
+    this.router.navigateByUrl(`/perfil/${localStorage.getItem('usuarioId')}`)
+  }
 }
