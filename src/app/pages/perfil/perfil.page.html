@@ -3,9 +3,9 @@
         <ion-buttons slot="start">
             <ion-back-button defaultHref="/"></ion-back-button>
         </ion-buttons>
-        <ion-title mode="ios" *ngIf="usuario">{{usuario.nombre}}</ion-title>
+        <ion-title mode="ios" *ngIf="cargado">{{usuario.nombre}}</ion-title>
     </ion-toolbar>
-    <div *ngIf="usuario" style="text-align: center; margin-top: 10%;">
+    <div *ngIf="cargado" style="text-align: center; margin-top: 10%;">
         <div>
             <ion-fab horizontal="end" slot="fixed">
                 <ion-fab-button>
@@ -42,7 +42,7 @@
 </ion-header>
 
 <ion-content>
-    <div *ngIf="usuario">
+    <div *ngIf="cargado">
         <div *ngIf="segmento.value == 'Perfil'">
             El buen perfil
         </div>
