@@ -7,6 +7,10 @@ import { FormTrabajadorComponent } from './form-trabajador/form-trabajador.compo
 import { FormUsuarioComponent } from './form-usuario/form-usuario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormUsuarioEdicionComponent } from './form-usuario-edicion/form-usuario-edicion.component';
+import { ListaResenasComponent } from './lista-resenas/lista-resenas.component';
+import { ItemResenaComponent } from './item-resena/item-resena.component';
+import { ListaTrabajosComponent } from './lista-trabajos/lista-trabajos.component';
+import { ItemTrabajoComponent } from './item-trabajo/item-trabajo.component';
 
 
 
@@ -16,14 +20,22 @@ import { FormUsuarioEdicionComponent } from './form-usuario-edicion/form-usuario
     ItemUsuarioComponent,
     FormTrabajadorComponent,
     FormUsuarioComponent,
-    FormUsuarioEdicionComponent
+    FormUsuarioEdicionComponent,
+    ListaResenasComponent,
+    ItemResenaComponent,
+    ListaTrabajosComponent,
+    ItemTrabajoComponent
   ],
   exports:[
     ListaUsuariosComponent,
     ItemUsuarioComponent,
     FormTrabajadorComponent,
     FormUsuarioComponent,
-    FormUsuarioEdicionComponent
+    FormUsuarioEdicionComponent,
+    ListaResenasComponent,
+    ItemResenaComponent,
+    ListaTrabajosComponent,
+    ItemTrabajoComponent
   ],
   imports: [
     CommonModule,

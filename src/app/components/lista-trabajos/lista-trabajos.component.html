@@ -1,0 +1,12 @@
+<ng-container *ngIf="trabajos.length > 0; else elseTrabajo">
+    <ion-list>
+        <app-item-trabajo [trabajo]="trabajo" *ngFor="let trabajo of trabajos"></app-item-trabajo>
+    </ion-list>
+</ng-container>
+<ng-template #elseTrabajo>
+    <div>
+        <ion-text>
+            <h6 style="margin: auto;">No hay trabajos para mostrar</h6>
+        </ion-text>
+    </div>
+</ng-template>

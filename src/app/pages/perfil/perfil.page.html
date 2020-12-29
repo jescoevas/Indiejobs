@@ -5,21 +5,24 @@
         </ion-buttons>
         <ion-title mode="ios" *ngIf="cargado">{{usuario.nombre}}</ion-title>
     </ion-toolbar>
-    <div *ngIf="cargado" style="text-align: center; margin-top: 10%;">
+    <div *ngIf="cargado" style="text-align: center; margin-top: 5%;">
         <div>
             <ion-fab horizontal="end" slot="fixed">
                 <ion-fab-button>
                     <ion-icon name="ellipsis-vertical"></ion-icon>
                 </ion-fab-button>
                 <ion-fab-list side="bottom">
-                    <ion-fab-button>
+                    <ion-fab-button (click)="compartir()">
                         <ion-icon name="share-social"></ion-icon>
                     </ion-fab-button>
-                    <ion-fab-button>
+                    <ion-fab-button *ngIf="!logado">
                         <ion-icon name="send"></ion-icon>
                     </ion-fab-button>
-                    <ion-fab-button>
+                    <ion-fab-button *ngIf="!logado">
                         <ion-icon name="create"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button *ngIf="logado" routerLink="/editar">
+                        <ion-icon name="pencil"></ion-icon>
                     </ion-fab-button>
                 </ion-fab-list>
             </ion-fab>
@@ -30,11 +33,11 @@
         <h1>{{usuario.empleo}} ({{usuario.ciudad}})</h1>
         <h5>Se unió en {{usuario.fechaRegistro | date}}</h5>
         <h5>
-            45
+            {{estrellas}}
             <ion-icon name="star"></ion-icon>
         </h5>
     </div>
-    <ion-segment scrollable color="primary">
+    <ion-segment scrollable color="primary" (ionChange)="cambio( $event )">
         <ion-segment-button *ngFor="let apartado of apartados" [value]="apartado">
             <ion-label text-capitalize>{{apartado}}</ion-label>
         </ion-segment-button>
@@ -44,13 +47,13 @@
 <ion-content>
     <div *ngIf="cargado">
         <div *ngIf="segmento.value == 'Perfil'">
-            El buen perfil
+            {{usuario.descripcion}}
         </div>
         <div *ngIf="segmento.value == 'Trabajos'">
-            El buen trabajo
+            <app-lista-trabajos [trabajos]="trabajos"></app-lista-trabajos>
         </div>
         <div *ngIf="segmento.value == 'Reseñas'">
-            La buena reseña
+            <app-lista-resenas [resenas]="resenas"></app-lista-resenas>
         </div>
     </div>
 </ion-content>

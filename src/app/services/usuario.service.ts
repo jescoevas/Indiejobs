@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { environment } from '../../environments/environment';
+import { Trabajo } from '../models/trabajo';
+import { TrabajoService } from './trabajo.service';
 
 const apiUrl = environment.apiUrl
 
@@ -10,7 +12,7 @@ const apiUrl = environment.apiUrl
 })
 export class UsuarioService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private trabajoService:TrabajoService) { }
 
   getUsuario(usuarioId:string):Promise<Usuario>{
     return new Promise<Usuario>(resolve => {
@@ -121,6 +123,15 @@ export class UsuarioService {
         resolve(num)
       })
     })
+  }
+
+  async getEstrellasTrabajador(id:string){
+    const trabajos = await this.trabajoService.getTrabajosUsuario(id)
+    let res = 0
+    for (let index = 0; index < trabajos.length; index++) {
+      res+=trabajos[index].estrellas
+    }
+    return res
   }
 
   sesionIniciada(){

@@ -6,8 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 import { IonSegment, LoadingController } from '@ionic/angular';
 import { ReseñaService } from 'src/app/services/reseña.service';
 import { Reseña } from 'src/app/models/reseña';
+import { Trabajo } from '../../models/trabajo';
+import { TrabajoService } from '../../services/trabajo.service';
+import { Plugins } from '@capacitor/core'
+
 
 const URL = environment.apiUrl
+const { Share } = Plugins
 
 @Component({
   selector: 'app-perfil',
@@ -21,10 +26,13 @@ export class PerfilPage implements OnInit {
   usuario:Usuario
   imagen:string
   apartados = ['Perfil', 'Trabajos', 'Reseñas']
-  reseñas:Reseña[] = []
+  resenas:Reseña[] = []
+  trabajos:Trabajo[] = []
+  estrellas:number
+  logado:boolean
   cargado:boolean = false
 
-  constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private activatedRoute:ActivatedRoute, private loadingController: LoadingController) { }
+  constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private trabajoService:TrabajoService, private activatedRoute:ActivatedRoute, private loadingController: LoadingController) { }
 
   async ngOnInit(){
     const loading = await this.loadingController.create({});
@@ -32,13 +40,34 @@ export class PerfilPage implements OnInit {
     this.activatedRoute.params.subscribe(async params => {
       const id = params['id']
       this.usuario = await this.usuarioService.getUsuario(id)
+      this.estrellas = await this.usuarioService.getEstrellasTrabajador(id)
+      this.logado = id == localStorage.getItem('usuarioId')
       this.imagen = `${ URL }/${ id }/foto`
       this.segmento.value = this.apartados[0];
-      this.reseñas = await this.reseñaService.getReseñasUsuario(id)
-      console.log(this.reseñas)
       this.cargado = true
       await loading.dismiss()
     })
+  }
+
+  async cambio(event){
+    this.trabajos = []
+    this.resenas = []
+    const tipo = event.detail.value
+    if(tipo === 'Trabajos'){
+      this.trabajos = await this.trabajoService.getTrabajosUsuario(this.usuario._id)
+    }
+    if(tipo === 'Reseñas'){
+      this.resenas = await this.reseñaService.getReseñasUsuario(this.usuario._id)
+    }
+  }
+
+  async compartir(){
+    const shareRet = await Share.share({
+      title: 'See cool stuff',
+      text: 'Really awesome thing you need to see right meow',
+      url: 'http://ionicframework.com/',
+      dialogTitle: 'Share with buddies'
+    });
   }
 
 }

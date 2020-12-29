@@ -1,0 +1,12 @@
+<ng-container *ngIf="resenas.length > 0; else elseResenas">
+    <ion-list>
+        <app-item-resena [resena]="resena" *ngFor="let resena of resenas"></app-item-resena>
+    </ion-list>
+</ng-container>
+<ng-template #elseResenas>
+    <div>
+        <ion-text>
+            <h6 style="margin: auto;">No hay reseñas para mostrar</h6>
+        </ion-text>
+    </div>
+</ng-template>
