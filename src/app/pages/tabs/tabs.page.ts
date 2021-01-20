@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { environment } from '../../../environments/environment';
+import { FormTrabajoPage } from '../form-trabajo/form-trabajo.page';
 
 const URL = environment.apiUrl
 
@@ -16,7 +17,7 @@ export class TabsPage{
 
   foto:string = 'assets/images/avatar_vacio.png'
 
-  constructor(private menuController:MenuController, private router:Router, private usuarioService:UsuarioService) {}
+  constructor(private menuController:MenuController, private router:Router, private usuarioService:UsuarioService, private modalController:ModalController) {}
 
   cerrarSesion(){
     this.usuarioService.cerrarSesion()
@@ -37,5 +38,13 @@ export class TabsPage{
 
   perfil(){
     this.router.navigateByUrl(`/perfil/${localStorage.getItem('usuarioId')}`)
+  }
+
+  async nuevoTrabajo(){
+    const modal = await this.modalController.create({
+      component: FormTrabajoPage,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
   }
 }

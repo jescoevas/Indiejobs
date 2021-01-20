@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Trabajo } from '../../models/trabajo';
+import { Router } from '@angular/router';
 
 const URL = environment.apiUrl
 
@@ -14,10 +15,14 @@ export class ItemTrabajoComponent implements OnInit {
   @Input() trabajo:Trabajo
   foto:string
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
     this.foto = `${URL}/${this.trabajo.autor}/${this.trabajo._id}/foto`
+  }
+
+  verTrabajo(){
+    this.router.navigateByUrl(`/trabajo/${this.trabajo._id}`)
   }
 
 }

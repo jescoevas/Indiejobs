@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title>Nuevo trabajo</ion-title>
+        <ion-button color="light" (click)="cerrar()" slot="end" fill="clear">
+            <ion-icon color="light" name="close"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form (ngSubmit)="submit(form)" #form="ngForm" class="ion-padding">
+        <ion-img [src]="imagen" style="margin-top: 10%;" (click)="tomarFoto()"></ion-img>
+        <small *ngIf="imagen == 'assets/images/imagen_default.png' && form.submitted" class="text-danger">La imagen es obligatoria</small>
+        <ion-textarea required name="cuerpo" [(ngModel)]="datos.cuerpo" #cuerpo="ngModel" style="border: 1px solid #3880ff; border-radius: 5%;"></ion-textarea>
+        <small *ngIf="cuerpo.invalid && form.submitted" class="text-danger">El cuerpo es obligatorio</small>
+        <ion-button id="submit" type="submit" expand="block" fill="outline">Subir trabajo</ion-button>
+    </form>
+</ion-content>

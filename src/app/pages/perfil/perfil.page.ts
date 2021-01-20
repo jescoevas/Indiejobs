@@ -63,10 +63,9 @@ export class PerfilPage implements OnInit {
 
   async compartir(){
     const shareRet = await Share.share({
-      title: 'See cool stuff',
-      text: 'Really awesome thing you need to see right meow',
-      url: 'http://ionicframework.com/',
-      dialogTitle: 'Share with buddies'
+      text: `Mira el perfil de ${this.usuario.nombre}`,
+      url: `https://indiejobs.herokuapp.com/indiejobs/api/perfil/${this.usuario._id}`,
+      dialogTitle: 'Compartir en...'
     });
   }
 
