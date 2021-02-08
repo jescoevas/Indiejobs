@@ -1,8 +1,8 @@
-<ion-card class="lista-item" (click)="verTrabajo()">
-    <img [src]="foto" />
+<ion-card class="lista-item">
+    <img [src]="foto" (click)="verTrabajo()" />
     <ion-card-header>
-        <ion-card-title>{{trabajo.estrellas}}
-            <ion-icon name="star"></ion-icon>
+        <ion-card-title>{{estrellas}}
+            <ion-icon (click)="valorar()" [name]="estrella"></ion-icon>
         </ion-card-title>
         <ion-card-subtitle>{{trabajo.fecha | date}}</ion-card-subtitle>
     </ion-card-header>

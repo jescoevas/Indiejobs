@@ -14,7 +14,8 @@ import { Trabajo } from '../../models/trabajo';
 export class FormTrabajoPage implements OnInit {
 
   datos:any = {
-    cuerpo:''
+    cuerpo:'',
+    estrellas:0
   }
   imagen:any = 'assets/images/imagen_default.png'
   imagenArchivo:File
