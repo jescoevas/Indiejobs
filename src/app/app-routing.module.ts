@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'form-trabajo',
     loadChildren: () => import('./pages/form-trabajo/form-trabajo.module').then( m => m.FormTrabajoPageModule)
+  },
+  {
+    path: 'top-trabajadores',
+    loadChildren: () => import('./pages/top-trabajadores/top-trabajadores.module').then( m => m.TopTrabajadoresPageModule)
+  },
+  {
+    path: 'top-trabajos',
+    loadChildren: () => import('./pages/top-trabajos/top-trabajos.module').then( m => m.TopTrabajosPageModule)
   }
 ];
 @NgModule({

@@ -58,4 +58,17 @@ export class TrabajoService {
       })
     })
   }
+
+  async getMejoresTrabajos(tipo:string):Promise<Trabajo[]>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+    return new Promise<Trabajo[]>(resolve => {
+      this.http.post(`${apiUrl}/trabajos/top`, {tipo}, {headers}).subscribe(data => {
+        const trabajos = data['trabajos']
+        resolve(trabajos)
+      })
+    })
+  }
+
 }

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Usuario } from '../../models/usuario';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../services/usuario.service';
 
 const URL = environment.apiUrl
 
@@ -14,11 +15,13 @@ export class ItemUsuarioComponent implements OnInit {
 
   @Input() trabajador:Usuario
   foto:string = 'assets/images/avatar_vacio.png'
+  estrellas:number
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private usuarioService:UsuarioService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargarFoto()
+    this.estrellas = await this.usuarioService.getEstrellasTrabajador(this.trabajador._id)
   }
 
   cargarFoto(){

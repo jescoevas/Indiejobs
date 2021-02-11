@@ -134,6 +134,18 @@ export class UsuarioService {
     return res
   }
 
+  async getMejoresTrabajadores(tipo:string):Promise<Usuario[]>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+    return new Promise<Usuario[]>(resolve => {
+      this.http.post(`${apiUrl}/trabajadores/top`, {tipo}, {headers}).subscribe(data => {
+        const trabajadores = data['trabajadores']
+        resolve(trabajadores)
+      })
+    })
+  }
+
   sesionIniciada(){
     return localStorage.getItem('token') ? true : false
   }

@@ -69,4 +69,8 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  getValor(valor:number){
+    this.estrellas+=valor
+  }
+
 }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="trabajos.length > 0; else elseTrabajo">
     <ion-list>
-        <app-item-trabajo [trabajo]="trabajo" *ngFor="let trabajo of trabajos"></app-item-trabajo>
+        <app-item-trabajo [trabajo]="trabajo" *ngFor="let trabajo of trabajos" (emitirValor)="getValor($event)"></app-item-trabajo>
     </ion-list>
 </ng-container>
 <ng-template #elseTrabajo>

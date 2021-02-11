@@ -50,7 +50,7 @@
             {{usuario.descripcion}}
         </div>
         <div *ngIf="segmento.value == 'Trabajos'">
-            <app-lista-trabajos [trabajos]="trabajos"></app-lista-trabajos>
+            <app-lista-trabajos [trabajos]="trabajos" (emitirValor)="getValor($event)"></app-lista-trabajos>
         </div>
         <div *ngIf="segmento.value == 'Reseñas'">
             <app-lista-resenas [resenas]="resenas"></app-lista-resenas>

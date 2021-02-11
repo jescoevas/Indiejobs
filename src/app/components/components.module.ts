@@ -11,6 +11,7 @@ import { ListaResenasComponent } from './lista-resenas/lista-resenas.component';
 import { ItemResenaComponent } from './item-resena/item-resena.component';
 import { ListaTrabajosComponent } from './lista-trabajos/lista-trabajos.component';
 import { ItemTrabajoComponent } from './item-trabajo/item-trabajo.component';
+import { ValoracionComponent } from './valoracion/valoracion.component';
 
 
 
@@ -24,7 +25,8 @@ import { ItemTrabajoComponent } from './item-trabajo/item-trabajo.component';
     ListaResenasComponent,
     ItemResenaComponent,
     ListaTrabajosComponent,
-    ItemTrabajoComponent
+    ItemTrabajoComponent,
+    ValoracionComponent
   ],
   exports:[
     ListaUsuariosComponent,
@@ -35,7 +37,8 @@ import { ItemTrabajoComponent } from './item-trabajo/item-trabajo.component';
     ListaResenasComponent,
     ItemResenaComponent,
     ListaTrabajosComponent,
-    ItemTrabajoComponent
+    ItemTrabajoComponent,
+    ValoracionComponent
   ],
   imports: [
     CommonModule,

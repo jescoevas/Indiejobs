@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Trabajo } from '../../models/trabajo';
 
 @Component({
@@ -9,9 +9,14 @@ import { Trabajo } from '../../models/trabajo';
 export class ListaTrabajosComponent implements OnInit {
 
   @Input() trabajos:Trabajo[] = []
+  @Output() emitirValor = new EventEmitter<number>()
 
   constructor() { }
 
   ngOnInit() {}
 
+
+  getValor(valor:number){
+    this.emitirValor.emit(valor)
+  }
 }
