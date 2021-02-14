@@ -2,13 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute } from '@angular/router';
-import { IonSegment, LoadingController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonSegment, LoadingController, ModalController } from '@ionic/angular';
 import { ReseñaService } from 'src/app/services/reseña.service';
 import { Reseña } from 'src/app/models/reseña';
 import { Trabajo } from '../../models/trabajo';
 import { TrabajoService } from '../../services/trabajo.service';
 import { Plugins } from '@capacitor/core'
+import { NgForm } from '@angular/forms';
 
 
 const URL = environment.apiUrl
@@ -31,6 +32,10 @@ export class PerfilPage implements OnInit {
   estrellas:number
   logado:boolean
   cargado:boolean = false
+
+  resena:any = {
+    cuerpo:''
+  }
 
   constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private trabajoService:TrabajoService, private activatedRoute:ActivatedRoute, private loadingController: LoadingController) { }
 
@@ -71,6 +76,18 @@ export class PerfilPage implements OnInit {
 
   getValor(valor:number){
     this.estrellas+=valor
+  }
+
+  async submit(form:NgForm){
+    if(form.valid){
+      this.resena.idReceptor = this.usuario._id
+      await this.reseñaService.nuevaResena(this.resena)
+      this.resena = {
+        cuerpo:''
+      }
+      form.resetForm(this.resena)
+      this.resenas = await this.reseñaService.getReseñasUsuario(this.usuario._id)
+    }
   }
 
 }

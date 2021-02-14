@@ -12,6 +12,8 @@ import { ItemResenaComponent } from './item-resena/item-resena.component';
 import { ListaTrabajosComponent } from './lista-trabajos/lista-trabajos.component';
 import { ItemTrabajoComponent } from './item-trabajo/item-trabajo.component';
 import { ValoracionComponent } from './valoracion/valoracion.component';
+import { ListaChatsComponent } from './lista-chats/lista-chats.component';
+import { ItemChatComponent } from './item-chat/item-chat.component';
 
 
 
@@ -26,7 +28,9 @@ import { ValoracionComponent } from './valoracion/valoracion.component';
     ItemResenaComponent,
     ListaTrabajosComponent,
     ItemTrabajoComponent,
-    ValoracionComponent
+    ValoracionComponent,
+    ListaChatsComponent,
+    ItemChatComponent
   ],
   exports:[
     ListaUsuariosComponent,
@@ -38,7 +42,9 @@ import { ValoracionComponent } from './valoracion/valoracion.component';
     ItemResenaComponent,
     ListaTrabajosComponent,
     ItemTrabajoComponent,
-    ValoracionComponent
+    ValoracionComponent,
+    ListaChatsComponent,
+    ItemChatComponent
   ],
   imports: [
     CommonModule,

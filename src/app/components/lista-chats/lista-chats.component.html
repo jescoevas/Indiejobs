@@ -1,0 +1,12 @@
+<ng-container *ngIf="chats.length > 0; else elseChats">
+    <ion-list>
+        <app-item-chat [chat]="chat" *ngFor="let chat of chats"></app-item-chat>
+    </ion-list>
+</ng-container>
+<ng-template #elseChats>
+    <div>
+        <ion-text>
+            <h6 style="margin: auto;">No hay chats para mostrar</h6>
+        </ion-text>
+    </div>
+</ng-template>

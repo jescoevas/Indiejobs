@@ -59,7 +59,7 @@ export class TrabajoService {
     })
   }
 
-  async getMejoresTrabajos(tipo:string):Promise<Trabajo[]>{
+  getMejoresTrabajos(tipo:string):Promise<Trabajo[]>{
     const headers = new HttpHeaders({
       'x-token': localStorage.getItem('token')
     });

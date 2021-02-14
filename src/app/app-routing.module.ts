@@ -42,6 +42,10 @@ const routes: Routes = [
   {
     path: 'top-trabajos',
     loadChildren: () => import('./pages/top-trabajos/top-trabajos.module').then( m => m.TopTrabajosPageModule)
+  },
+  {
+    path: 'ultimas-resenas',
+    loadChildren: () => import('./pages/ultimas-resenas/ultimas-resenas.module').then( m => m.UltimasResenasPageModule)
   }
 ];
 @NgModule({

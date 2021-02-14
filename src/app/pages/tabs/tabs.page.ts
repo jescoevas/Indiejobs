@@ -42,8 +42,7 @@ export class TabsPage{
 
   async nuevoTrabajo(){
     const modal = await this.modalController.create({
-      component: FormTrabajoPage,
-      cssClass: 'my-custom-class'
+      component: FormTrabajoPage
     });
     return await modal.present();
   }
