@@ -17,7 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'chat',
-        loadChildren: () => import('../chat/tab3.module').then(m => m.Tab3PageModule)
+        loadChildren: () => import('../chats/tab3.module').then(m => m.Tab3PageModule)
       },
       {
         path: '',

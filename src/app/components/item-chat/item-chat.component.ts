@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Chat } from '../../models/chat';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Mensaje } from '../../models/mensaje';
+import { ChatService } from '../../services/chat.service';
 
 const URL = environment.apiUrl
 
@@ -13,12 +15,15 @@ const URL = environment.apiUrl
 export class ItemChatComponent implements OnInit {
 
   @Input() chat:Chat
+  ultimoMensaje:string
   foto:string = 'assets/images/avatar_vacio.png'
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private chatService:ChatService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargarFoto()
+    const ultmen = await this.chatService.getChatMensajes(this.chat._id)
+    this.ultimoMensaje = ultmen[ultmen.length-1].cuerpo
   }
 
   cargarFoto(){

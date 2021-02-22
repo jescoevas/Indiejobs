@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/core';
@@ -11,7 +11,7 @@ import { Trabajo } from '../../models/trabajo';
   templateUrl: './form-trabajo.page.html',
   styleUrls: ['./form-trabajo.page.scss'],
 })
-export class FormTrabajoPage implements OnInit {
+export class FormTrabajoPage {
 
   datos:any = {
     cuerpo:'',
@@ -21,9 +21,6 @@ export class FormTrabajoPage implements OnInit {
   imagenArchivo:File
 
   constructor(private modalController:ModalController, private trabajoService:TrabajoService) { }
-
-  ngOnInit() {
-  }
 
   cerrar(){
     this.modalController.dismiss()

@@ -1,0 +1,19 @@
+<ion-item *ngIf="!esLogado" lines="none" class="ion-padding " class="lista-item">
+    <ion-avatar class="item-avatar-md ">
+        <img [src]="foto" />
+    </ion-avatar>
+    <ion-label class="ion-padding ion-text-wrap">
+        <h2>{{mensaje.cuerpo}}</h2>
+        <small>{{mensaje.fecha | date: 'short'}}</small>
+    </ion-label>
+</ion-item>
+
+<ion-item *ngIf="esLogado" lines="none" class="ion-padding " class="lista-item">
+    <ion-label class="ion-padding ion-text-wrap">
+        <h2>{{mensaje.cuerpo}}</h2>
+        <small>{{mensaje.fecha | date: 'short'}}</small>
+    </ion-label>
+    <ion-avatar class="item-avatar-md ">
+        <img [src]="foto" />
+    </ion-avatar>
+</ion-item>

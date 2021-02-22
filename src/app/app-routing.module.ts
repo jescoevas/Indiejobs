@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'ultimas-resenas',
     loadChildren: () => import('./pages/ultimas-resenas/ultimas-resenas.module').then( m => m.UltimasResenasPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
   }
 ];
 @NgModule({

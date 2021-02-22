@@ -33,7 +33,6 @@ export class ValoracionComponent implements OnInit {
       this.yaValorada = true
       this.emitirValor.emit(1)
     }
-    console.log(this.yaValorada)
   }
 
 }
