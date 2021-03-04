@@ -13,6 +13,7 @@ import { NavController } from '@ionic/angular';
 export class ChatPage implements OnInit {
 
   mensajes:Mensaje[] = []
+  id:string
 
   datos:any = {
     cuerpo:''
@@ -22,21 +23,26 @@ export class ChatPage implements OnInit {
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(async params => {
-      const id = params['id']
-      this.mensajes = await this.chatService.getChatMensajes(id)
+      this.id= params['id']
+      this.mensajes = await this.chatService.getChatMensajes(this.id)
     })
   }
 
-  async enviar(form:NgForm, bottom){
+  async enviar(form:NgForm){
     if(form.valid){
-      this.datos.chatId = this.mensajes[0].chat
+      if(this.mensajes.length == 0){
+        const chat = await this.chatService.iniciarChat(this.id)
+        this.id = chat._id
+        this.datos.chatId = chat._id
+      }else{
+        this.datos.chatId = this.mensajes[0].chat
+      }
       await this.chatService.enviarMensaje(this.datos)
       this.datos = {
         cuerpo:''
       }
       form.resetForm(this.datos)
-      this.mensajes = await this.chatService.getChatMensajes(String(this.mensajes[0].chat))
-      bottom.focus()
+      this.mensajes = await this.chatService.getChatMensajes(this.id)
     }
   }
 

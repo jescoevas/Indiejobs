@@ -10,6 +10,7 @@ import { Trabajo } from '../../models/trabajo';
 import { TrabajoService } from '../../services/trabajo.service';
 import { Plugins } from '@capacitor/core'
 import { NgForm } from '@angular/forms';
+import { ChatService } from '../../services/chat.service';
 
 
 const URL = environment.apiUrl
@@ -29,6 +30,7 @@ export class PerfilPage implements OnInit {
   apartados = ['Perfil', 'Trabajos', 'Reseñas']
   resenas:Reseña[] = []
   trabajos:Trabajo[] = []
+  existeChat:Boolean
   estrellas:number
   logado:boolean
   cargado:boolean = false
@@ -37,7 +39,7 @@ export class PerfilPage implements OnInit {
     cuerpo:''
   }
 
-  constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private trabajoService:TrabajoService, private activatedRoute:ActivatedRoute, private loadingController: LoadingController) { }
+  constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private trabajoService:TrabajoService, private activatedRoute:ActivatedRoute, private loadingController: LoadingController, private router:Router, private chatService:ChatService) { }
 
   async ngOnInit(){
     const loading = await this.loadingController.create({});
@@ -46,6 +48,7 @@ export class PerfilPage implements OnInit {
       const id = params['id']
       this.usuario = await this.usuarioService.getUsuario(id)
       this.estrellas = await this.usuarioService.getEstrellasTrabajador(id)
+      this.existeChat = await this.chatService.existeChat(id)
       this.logado = id == localStorage.getItem('usuarioId')
       this.imagen = `${ URL }/${ id }/foto`
       this.segmento.value = this.apartados[0];
@@ -76,6 +79,10 @@ export class PerfilPage implements OnInit {
 
   getValor(valor:number){
     this.estrellas+=valor
+  }
+
+  iniciarChat(){
+    this.router.navigateByUrl(`/chat/${this.usuario._id}`)
   }
 
   async submit(form:NgForm){

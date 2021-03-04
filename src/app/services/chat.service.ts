@@ -34,6 +34,18 @@ export class ChatService {
     })
   }
 
+  iniciarChat(usuario2ID:string):Promise<Chat>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+    return new Promise<Chat>(resolve => {
+      this.http.post(`${apiUrl}/chat/create`, {usuario2ID}, {headers}).subscribe(data => {
+        const chat = data['chat']
+        resolve(chat)
+      })
+    })
+  }
+
   enviarMensaje(datos:any):Promise<Mensaje>{
     const headers = new HttpHeaders({
       'x-token': localStorage.getItem('token')
@@ -42,6 +54,18 @@ export class ChatService {
       this.http.post(`${apiUrl}/mensaje/create`, datos, {headers}).subscribe(data => {
         const mensaje = data['mensaje']
         resolve(mensaje)
+      })
+    })
+  }
+
+  existeChat(usuario2ID:string):Promise<Boolean>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+    return new Promise<Boolean>(resolve => {
+      this.http.post(`${apiUrl}/chat/existe`, {usuario2ID}, {headers}).subscribe(data => {
+        const encontrado = data['encontrado']
+        resolve(encontrado)
       })
     })
   }

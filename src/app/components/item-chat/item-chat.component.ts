@@ -15,7 +15,8 @@ const URL = environment.apiUrl
 export class ItemChatComponent implements OnInit {
 
   @Input() chat:Chat
-  ultimoMensaje:string
+  ultimoMensaje:Mensaje
+  check:string
   foto:string = 'assets/images/avatar_vacio.png'
 
   constructor(private router:Router, private chatService:ChatService) { }
@@ -23,7 +24,8 @@ export class ItemChatComponent implements OnInit {
   async ngOnInit() {
     this.cargarFoto()
     const ultmen = await this.chatService.getChatMensajes(this.chat._id)
-    this.ultimoMensaje = ultmen[ultmen.length-1].cuerpo
+    this.ultimoMensaje = ultmen[ultmen.length-1]
+    this.check = this.ultimoMensaje.autor == localStorage.getItem('usuarioId') ? 'success' : 'primary'
   }
 
   cargarFoto(){

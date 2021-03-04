@@ -15,7 +15,7 @@
                     <ion-fab-button (click)="compartir()">
                         <ion-icon name="share-social"></ion-icon>
                     </ion-fab-button>
-                    <ion-fab-button *ngIf="!logado">
+                    <ion-fab-button *ngIf="!logado && !existeChat" (click)="iniciarChat()">
                         <ion-icon name="send"></ion-icon>
                     </ion-fab-button>
                     <ion-fab-button *ngIf="logado" routerLink="/editar">
