@@ -48,7 +48,7 @@ describe('Buscador', () => {
       spyOn(usuarioService, 'getTrabajadoresBuscador')
       const button = fixture.debugElement.nativeElement.querySelector('#submit');
       button.click();
-      expect(usuarioService.getTrabajadoresBuscador).toHaveBeenCalledWith(component.datos)
+      expect(usuarioService.getTrabajadoresBuscador).toHaveBeenCalled()
     })
     it('Buscador: Datos recibidos', () => {
       const trabajadores:Usuario[] = [{_id:'1', nombre:'Jesus'}, {_id:'2', nombre:'Marta'}]

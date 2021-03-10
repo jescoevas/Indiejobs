@@ -87,7 +87,7 @@ describe('Página de login', () => {
       spyOn(usuarioService, 'login')
       const button = fixture.debugElement.nativeElement.querySelector('#submit');
       button.click();
-      expect(usuarioService.login).toHaveBeenCalledWith(component.form.value)
+      expect(usuarioService.login).toHaveBeenCalled()
     })
 
     it('Login: Login exitoso', () => {

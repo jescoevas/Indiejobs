@@ -1,14 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
-import { environment } from 'src/environments/environment';
 import { Tab1Page } from './tab1.page';
-import { By } from '@angular/platform-browser';
 
-const apiUrl = environment.apiUrl
 
 describe('Página de inicio', () => {
   let component: Tab1Page;
@@ -44,6 +41,11 @@ describe('Página de inicio', () => {
     fixture.whenStable().then(() => {
       expect(component.trabajadores.length).toBe(2)
     })
+  })
+
+  it('Destroy', () => {
+    component.ngOnDestroy()
+    expect(component.trabajadores.length).toBe(0)
   })
 
 });

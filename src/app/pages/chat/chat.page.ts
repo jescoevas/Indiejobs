@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { Mensaje } from '../../models/mensaje';
 import { NgForm } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -12,6 +12,7 @@ import { NavController } from '@ionic/angular';
 })
 export class ChatPage implements OnInit {
 
+  @ViewChild(IonContent) content: IonContent;
   mensajes:Mensaje[] = []
   id:string
 
@@ -19,13 +20,17 @@ export class ChatPage implements OnInit {
     cuerpo:''
   }
 
-  constructor(private activatedRoute:ActivatedRoute, private chatService:ChatService, private navCtrl: NavController) { }
+  constructor(private activatedRoute:ActivatedRoute, private chatService:ChatService) { }
 
   async ngOnInit() {
     this.activatedRoute.params.subscribe(async params => {
       this.id= params['id']
       this.mensajes = await this.chatService.getChatMensajes(this.id)
     })
+  }
+
+  ionViewDidEnter() {
+    this.content.scrollToBottom(800)
   }
 
   async enviar(form:NgForm){
@@ -37,13 +42,17 @@ export class ChatPage implements OnInit {
       }else{
         this.datos.chatId = this.mensajes[0].chat
       }
-      await this.chatService.enviarMensaje(this.datos)
+      const mensaje = await this.chatService.enviarMensaje(this.datos)
       this.datos = {
         cuerpo:''
       }
       form.resetForm(this.datos)
-      this.mensajes = await this.chatService.getChatMensajes(this.id)
+      this.mensajes.push(mensaje)
+      
     }
+    this.content.scrollToBottom(100)
   }
-
 }
+
+
+

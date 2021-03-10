@@ -7,13 +7,12 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content #content scrollEvents="true">
     <app-lista-mensajes [mensajes]="mensajes"></app-lista-mensajes>
-    <div #bottom></div>
 </ion-content>
 
 <ion-footer>
-    <form (ngSubmit)="enviar(form, bottom)" #form="ngForm" class="ion-padding">
+    <form (ngSubmit)="enviar(form)" #form="ngForm" class="ion-padding">
         <ion-row>
             <ion-col size="9">
                 <ion-input required name="cuerpo" [(ngModel)]="datos.cuerpo" #cuerpo="ngModel" style="border: 1px solid #3880ff; border-radius: 5%;"></ion-input>

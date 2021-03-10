@@ -17,4 +17,11 @@ export class Tab3Page implements OnInit{
     this.chats = await this.chatService.getChats()
   }
 
+  refresh(event){
+    setTimeout(async() => {
+      this.chats = await this.chatService.getChats()
+      event.target.complete();
+    }, 1000);
+  }
+
 }
