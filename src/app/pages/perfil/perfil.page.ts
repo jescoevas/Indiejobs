@@ -26,7 +26,7 @@ export class PerfilPage implements OnInit {
   @ViewChild(IonSegment) segmento: IonSegment;
 
   usuario:Usuario
-  imagen:string
+  imagen:string = 'assets/images/avatar_vacio.png'
   apartados = ['Perfil', 'Trabajos', 'Reseñas']
   resenas:Reseña[] = []
   trabajos:Trabajo[] = []
@@ -50,7 +50,9 @@ export class PerfilPage implements OnInit {
       this.estrellas = await this.usuarioService.getEstrellasTrabajador(id)
       this.existeChat = await this.chatService.existeChat(id)
       this.logado = id == localStorage.getItem('usuarioId')
-      this.imagen = `${ URL }/${ id }/foto`
+      if(this.usuario.foto !== this.imagen){
+        this.imagen = `${ URL }/${ id }/foto`
+      }
       this.segmento.value = this.apartados[0];
       this.cargado = true
       await loading.dismiss()

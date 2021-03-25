@@ -23,7 +23,7 @@ export class FormTrabajadorComponent implements OnInit {
   formularioActivo:boolean = false
   form:FormGroup
   esTrabajador:boolean = false
-  imagen:any
+  imagen:any = 'assets/images/avatar_vacio.png'
   imagenArchivo:File
 
   constructor(private fb:FormBuilder, private usuarioService:UsuarioService, private router:Router,
@@ -31,7 +31,9 @@ export class FormTrabajadorComponent implements OnInit {
 
   async ngOnInit(){
     this.iniciarFormTrabajador()
-    this.imagen = `${ URL }/${ this.usuario._id }/foto`
+    if(this.usuario.foto !== this.imagen){
+      this.imagen = `${ URL }/${ this.usuario._id }/foto`
+    }
   }
 
   iniciarFormTrabajador(){

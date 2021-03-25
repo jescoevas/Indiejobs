@@ -20,7 +20,7 @@ export class FormUsuarioEdicionComponent implements OnInit{
 
   form:FormGroup
   esTrabajador:boolean = false
-  imagen:any
+  imagen:any = 'assets/images/avatar_vacio.png'
   imagenArchivo:File
   @Output() emiteDatos = new EventEmitter<Object>()
   @Input() usuario:Usuario
@@ -30,7 +30,9 @@ export class FormUsuarioEdicionComponent implements OnInit{
 
   async ngOnInit(){
     this.iniciarForm()
-    this.imagen = `${ URL }/${ this.usuario._id }/foto`
+    if(this.usuario.foto !== this.imagen){
+      this.imagen = `${ URL }/${ this.usuario._id }/foto`
+    }
   }
 
   iniciarForm(){
