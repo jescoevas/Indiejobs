@@ -67,3 +67,18 @@ ion-item {
 .add-trabajo {
     margin-bottom: 20% !important;
 }
+
+.tabla {
+    border: 1px solid black;
+    width: 100%;
+}
+
+tr td {
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.atr {
+    background-color: var(--ion-color-primary) !important;
+    color: white;
+}

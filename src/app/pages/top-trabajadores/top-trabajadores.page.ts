@@ -42,4 +42,8 @@ export class TopTrabajadoresPage implements OnInit {
     }
   }
 
+  ionViewWillLeave() {
+    this.trabajadores = []
+  }
+
 }

@@ -27,9 +27,9 @@
         <ion-avatar class="item-avatar-lg" style="margin: auto;">
             <img [src]="imagen" />
         </ion-avatar>
-        <h1>{{usuario.empleo}} ({{usuario.ciudad}})</h1>
+        <h1 *ngIf="usuario.trabajador">{{usuario.empleo}}</h1>
         <h5>Se unió en {{usuario.fechaRegistro | date}}</h5>
-        <h5>
+        <h5 *ngIf="usuario.trabajador">
             {{estrellas}}
             <ion-icon name="star"></ion-icon>
         </h5>
@@ -43,8 +43,60 @@
 
 <ion-content>
     <div *ngIf="cargado">
-        <div *ngIf="segmento.value == 'Perfil'" class="ion-padding" style="text-align: justify;">
-            {{usuario.descripcion}}
+        <div *ngIf="segmento.value == 'Perfil'" class="ion-padding">
+            <div *ngIf="usuario.trabajador" style="text-align: justify;">
+                <p>{{usuario.descripcion}}</p>
+            </div>
+            <table class="tabla">
+                <tr>
+                    <td class="atr">
+                        <strong>Fecha de nacimiento</strong>
+                    </td>
+                    <td>
+                        {{usuario.fechaNacimiento | date}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="atr">
+                        <strong>Email</strong>
+                    </td>
+                    <td>
+                        {{usuario.email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="atr">
+                        <strong>Teléfono</strong>
+                    </td>
+                    <td>
+                        {{usuario.telefono}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="atr">
+                        <strong>Ciudad</strong>
+                    </td>
+                    <td>
+                        {{usuario.ciudad}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="atr">
+                        <strong>Dirección</strong>
+                    </td>
+                    <td>
+                        {{usuario.direccion}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="atr">
+                        <strong>Código postal</strong>
+                    </td>
+                    <td>
+                        {{usuario.codigoPostal}}
+                    </td>
+                </tr>
+            </table>
         </div>
         <div *ngIf="segmento.value == 'Trabajos'">
             <app-lista-trabajos [trabajos]="trabajos" (emitirValor)="getValor($event)"></app-lista-trabajos>

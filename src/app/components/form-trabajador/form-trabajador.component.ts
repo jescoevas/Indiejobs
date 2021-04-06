@@ -175,12 +175,13 @@ export class FormTrabajadorComponent implements OnInit {
 
   async cambiarFoto() {
     await this.usuarioService.asignarFoto(this.imagenArchivo, localStorage.getItem('token'))
-    const toast = await this.toastController.create({
-      message: 'Foto actualizada',
-      duration: 2000,
-      color:'success'
-    });
-    toast.present();
+    // const toast = await this.toastController.create({
+    //   message: 'Foto actualizada',
+    //   duration: 2000,
+    //   color:'success'
+    // });
+    // toast.present();
+    window.location.reload()
   }
 
 }

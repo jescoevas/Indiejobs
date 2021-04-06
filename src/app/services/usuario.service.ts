@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { environment } from '../../environments/environment';
-import { Trabajo } from '../models/trabajo';
 import { TrabajoService } from './trabajo.service';
 
 const apiUrl = environment.apiUrl
@@ -52,8 +51,8 @@ export class UsuarioService {
     formData.append('foto', foto, foto.name)
     return new Promise<string>(resolve => {
       this.http.post(`${apiUrl}/asignarFoto`, formData, {headers}).subscribe(data => {
-        const msg = data['msg']
-        resolve(msg)
+        const foto = data['foto']
+        resolve(foto)
       })
     })
   }

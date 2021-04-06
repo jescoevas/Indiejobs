@@ -1,6 +1,6 @@
 {
     "appId": "es.jescoevas.indiejobs",
-    "appName": "indiejobs",
+    "appName": "Indiejobs",
     "bundledWebRuntime": false,
     "npmClient": "npm",
     "webDir": "www",

@@ -46,4 +46,8 @@ export class TopTrabajosPage implements OnInit {
     await this.cargarContenido(this.segmento.value)
   }
 
+  ionViewWillLeave() {
+    this.trabajos = []
+  }
+
 }
