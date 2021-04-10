@@ -23,7 +23,7 @@ export class RegistroPage{
           color:'success'
         });
         toast.present();
-          this.router.navigateByUrl('/login')
+        this.router.navigateByUrl('/login')
       }else{
         return ;
       }

@@ -29,14 +29,14 @@ describe('Página de inicio', () => {
 
   it('Init: Llama a getTrabajadoresCercanos', () => {
     spyOn(servicio, 'getTrabajadoresCercanos')
-    component.ngOnInit()
+    component.ionViewDidEnter()
     expect(servicio.getTrabajadoresCercanos).toHaveBeenCalled()
   })
 
   it('Init: Obtiene los trabajadores cercanos', () => {
     const trabajadores:Usuario[] = [{_id:'1', nombre:'Jesus'}, {_id:'2', nombre:'Marta'}]
     spyOn(servicio, 'getTrabajadoresCercanos').and.callFake(() => Promise.resolve(trabajadores))
-    component.ngOnInit()
+    component.ionViewDidEnter()
     expect(servicio.getTrabajadoresCercanos).toHaveBeenCalled()
     fixture.whenStable().then(() => {
       expect(component.trabajadores.length).toBe(2)

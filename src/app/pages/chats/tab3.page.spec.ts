@@ -29,7 +29,7 @@ describe('Chats', () => {
   it('Init: Chats obtenidos', () => {
     const chats:Chat[] = [{_id:'1'}, {_id:'2'}]
     spyOn(servicio, 'getChats').and.callFake(() => Promise.resolve(chats))
-    component.ngOnInit()
+    component.ionViewDidEnter()
     expect(servicio.getChats).toHaveBeenCalled()
     fixture.whenStable().then(() => {
       expect(component.chats.length).toBe(2)

@@ -42,6 +42,7 @@ export class ChatPage implements OnInit {
       }else{
         this.datos.chatId = this.mensajes[0].chat
       }
+      this.datos.fecha = new Date()
       const mensaje = await this.chatService.enviarMensaje(this.datos)
       this.datos = {
         cuerpo:''

@@ -3,7 +3,7 @@
         <img [src]="foto" />
     </ion-avatar>
     <ion-label class="ion-padding ion-text-wrap">
-        <!-- <h1>{{resena.autor.nombre}}</h1> -->
         <h3>{{resena.cuerpo}}</h3>
+        <small>{{resena.fecha | date: 'short'}}</small>
     </ion-label>
 </ion-item>
