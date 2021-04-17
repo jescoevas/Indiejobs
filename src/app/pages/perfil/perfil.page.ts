@@ -103,7 +103,7 @@ export class PerfilPage implements OnInit {
       form.resetForm(this.resena)
       this.resenas = await this.reseñaService.getReseñasUsuario(this.usuario._id)
       const toast = await this.toastController.create({
-        message: 'Trabajo subido',
+        message: 'Reseña subida',
         duration: 2000,
         color:'success'
       });
