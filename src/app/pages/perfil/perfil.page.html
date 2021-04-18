@@ -15,6 +15,9 @@
                     <ion-fab-button (click)="compartir()">
                         <ion-icon name="share-social"></ion-icon>
                     </ion-fab-button>
+                    <ion-fab-button (click)="seguidores()">
+                        <ion-icon name="person"></ion-icon>
+                    </ion-fab-button>
                     <ion-fab-button *ngIf="!logado && !existeChat" (click)="iniciarChat()">
                         <ion-icon name="send"></ion-icon>
                     </ion-fab-button>
@@ -33,6 +36,16 @@
             {{estrellas}}
             <ion-icon name="star"></ion-icon>
         </h5>
+        <p *ngIf="numSeguidores != 1"><strong>{{numSeguidores}}</strong> seguidores <strong>{{numSiguiendo}}</strong> siguiendo</p>
+        <p *ngIf="numSeguidores == 1"><strong>{{numSeguidores}}</strong> seguidor <strong>{{numSiguiendo}}</strong> siguiendo</p>
+        <div *ngIf="!logado">
+            <ion-button *ngIf="!seguido" (click)="follow()" shape="round" fill="outline">
+                Seguir
+            </ion-button>
+            <ion-button *ngIf="seguido" (click)="unfollow()" shape="round">
+                Siguiendo
+            </ion-button>
+        </div>
     </div>
     <ion-segment scrollable color="primary" (ionChange)="cambio( $event )">
         <ion-segment-button *ngFor="let apartado of apartados" [value]="apartado" [id]="apartado">

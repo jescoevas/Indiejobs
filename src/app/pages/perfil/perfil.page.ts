@@ -11,6 +11,7 @@ import { TrabajoService } from '../../services/trabajo.service';
 import { Plugins } from '@capacitor/core'
 import { NgForm } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
+import { SeguimientoService } from '../../services/seguimiento.service';
 
 
 const URL = environment.apiUrl
@@ -33,6 +34,9 @@ export class PerfilPage implements OnInit {
   existeChat:Boolean
   estrellas:number
   logado:boolean
+  seguido:Boolean
+  numSeguidores:number
+  numSiguiendo:number
   cargado:boolean = false
 
   resena:any = {
@@ -41,7 +45,7 @@ export class PerfilPage implements OnInit {
 
   constructor(private usuarioService:UsuarioService, private reseñaService:ReseñaService, private trabajoService:TrabajoService,
      private activatedRoute:ActivatedRoute, private loadingController: LoadingController, private router:Router, private chatService:ChatService,
-     private toastController:ToastController) { }
+     private toastController:ToastController, private seguimientoService:SeguimientoService) { }
 
   async ngOnInit(){
     const loading = await this.loadingController.create({});
@@ -52,6 +56,9 @@ export class PerfilPage implements OnInit {
       this.estrellas = await this.usuarioService.getEstrellasTrabajador(id)
       this.existeChat = await this.chatService.existeChat(id)
       this.logado = id == localStorage.getItem('usuarioId')
+      this.seguido = await this.seguimientoService.getSeguido(id)
+      this.numSeguidores = await this.seguimientoService.getNumSeguidores(id)
+      this.numSiguiendo = await this.seguimientoService.getNumSiguiendo(id)
       if(this.usuario.foto !== this.imagen){
         this.imagen = `${ URL }/${ id }/foto`
       }
@@ -110,6 +117,22 @@ export class PerfilPage implements OnInit {
 
       toast.present();
     }
+  }
+
+  seguidores(){
+    this.router.navigateByUrl(`/follow/${this.usuario._id}`)
+  }
+
+  follow(){
+    this.seguimientoService.follow(this.usuario._id)
+    this.seguido = true
+    this.numSeguidores++
+  }
+  
+  unfollow(){
+    this.seguimientoService.unfollow(this.usuario._id)
+    this.seguido = false
+    this.numSeguidores--
   }
 
 }

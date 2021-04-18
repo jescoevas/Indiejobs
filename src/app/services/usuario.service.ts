@@ -133,12 +133,12 @@ export class UsuarioService {
     return res
   }
 
-  async getMejoresTrabajadores(tipo:string):Promise<Usuario[]>{
+  async getMejoresTrabajadores(tipo:string, orden:string):Promise<Usuario[]>{
     const headers = new HttpHeaders({
       'x-token': localStorage.getItem('token')
     });
     return new Promise<Usuario[]>(resolve => {
-      this.http.post(`${apiUrl}/trabajadores/top`, {tipo}, {headers}).subscribe(data => {
+      this.http.post(`${apiUrl}/trabajadores/top`, {tipo, orden}, {headers}).subscribe(data => {
         const trabajadores = data['trabajadores']
         resolve(trabajadores)
       })

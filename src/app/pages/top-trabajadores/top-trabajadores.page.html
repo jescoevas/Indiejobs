@@ -5,13 +5,18 @@
         </ion-buttons>
         <ion-title mode="ios">Mejores trabajadores</ion-title>
     </ion-toolbar>
-    <ion-segment scrollable color="primary" (ionChange)="cambio( $event )">
-        <ion-segment-button *ngFor="let apartado of apartados" [value]="apartado" [id]="apartado">
-            <ion-label text-capitalize>{{apartado}}</ion-label>
+    <ion-segment scrollable color="primary" (ionChange)="cambioTipo( $event )">
+        <ion-segment-button *ngFor="let tipo of tipos" [value]="tipo" [id]="tipo">
+            <ion-label text-capitalize>{{tipo}}</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+    <ion-segment scrollable color="primary" (ionChange)="cambioOrden( $event )">
+        <ion-segment-button *ngFor="let orden of ordenes" [value]="orden" [id]="orden">
+            <ion-label text-capitalize>{{orden}}</ion-label>
         </ion-segment-button>
     </ion-segment>
 </ion-header>
 
 <ion-content>
-    <app-lista-usuarios [trabajadores]="trabajadores"></app-lista-usuarios>
+    <app-lista-usuarios [trabajadores]="trabajadores" [top]="true"></app-lista-usuarios>
 </ion-content>

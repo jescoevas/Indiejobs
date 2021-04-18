@@ -8,7 +8,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import { FormUsuarioComponent } from '../../components/form-usuario/form-usuario.component';
 import { UsuarioService } from '../../services/usuario.service';
 
-describe('Página de registro', () => {
+xdescribe('Página de registro', () => {
   let page: RegistroPage;
   let component:FormUsuarioComponent
   let pageFixture: ComponentFixture<RegistroPage>;

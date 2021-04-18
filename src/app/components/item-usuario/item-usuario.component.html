@@ -5,8 +5,12 @@
     <ion-label class="ion-padding ">
         <h1>{{trabajador.nombre}}</h1>
         <h3>{{trabajador.empleo}}</h3>
-        <h6>{{estrellas}}
+        <h6 *ngIf="top">{{estrellas}}
             <ion-icon name="star"></ion-icon>
         </h6>
+        <h3 *ngIf="top && numSeguidores != 1">{{numSeguidores}} seguidores</h3>
+        <h3 *ngIf="top && numSeguidores == 1">{{numSeguidores}} seguidor</h3>
+        <h3 *ngIf="top && numTrabajos != 1">{{numTrabajos}} trabajos publicados</h3>
+        <h3 *ngIf="top && numTrabajos == 1">{{numTrabajos}} trabajo publicado</h3>
     </ion-label>
 </ion-item>

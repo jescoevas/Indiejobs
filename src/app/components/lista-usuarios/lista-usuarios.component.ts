@@ -9,6 +9,7 @@ import { Usuario } from '../../models/usuario';
 export class ListaUsuariosComponent implements OnInit {
 
   @Input() trabajadores:Usuario[] = []
+  @Input() top:boolean
 
   constructor() { }
 

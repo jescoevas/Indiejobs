@@ -30,6 +30,15 @@ export class TrabajoService {
     })
   }
 
+  getNumTrabajosUsuario(id:string):Promise<number>{
+    return new Promise<number>(resolve => {
+      this.http.post(`${apiUrl}/usuario/trabajos`, {id}).subscribe(data => {
+        const num = data['num']
+        resolve(num)
+      })
+    })
+  }
+
   nuevoTrabajo(datos:any):Promise<Object>{
     const headers = new HttpHeaders({
       'x-token': localStorage.getItem('token')
