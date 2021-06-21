@@ -80,4 +80,16 @@ export class TrabajoService {
     })
   }
 
+  getMisTrabajosValorados():Promise<Trabajo[]>{
+    const headers = new HttpHeaders({
+      'x-token': localStorage.getItem('token')
+    });
+    return new Promise<Trabajo[]>(resolve => {
+      this.http.get(`${apiUrl}/trabajos/mis-valorados`, {headers}).subscribe(data => {
+        const trabajos = data['trabajos']
+        resolve(trabajos)
+      })
+    })
+  }
+
 }

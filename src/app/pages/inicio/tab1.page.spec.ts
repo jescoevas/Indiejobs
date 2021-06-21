@@ -7,7 +7,7 @@ import { Usuario } from '../../models/usuario';
 import { Tab1Page } from './tab1.page';
 
 
-describe('Página de inicio', () => {
+xdescribe('Página de inicio', () => {
   let component: Tab1Page;
   let fixture: ComponentFixture<Tab1Page>;
   let servicio:UsuarioService

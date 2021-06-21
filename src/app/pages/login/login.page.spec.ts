@@ -11,7 +11,7 @@ import { By } from '@angular/platform-browser';
 
 const apiUrl = environment.apiUrl
 
-describe('Página de login', () => {
+xdescribe('Página de login', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let usuarioService:UsuarioService

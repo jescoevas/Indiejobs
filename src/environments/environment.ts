@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://localhost:3000/indiejobs/api'
-  //apiUrl:'https://indiejobs.herokuapp.com/indiejobs/api/'
+  // apiUrl:'http://localhost:3000/indiejobs/api'
+  apiUrl:'https://indiejobs.herokuapp.com/indiejobs/api/'
 };
 
 /*

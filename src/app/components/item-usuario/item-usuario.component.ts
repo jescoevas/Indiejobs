@@ -3,7 +3,6 @@ import { environment } from 'src/environments/environment';
 import { Usuario } from '../../models/usuario';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-import { SeguimientoService } from '../../services/seguimiento.service';
 import { TrabajoService } from '../../services/trabajo.service';
 
 const URL = environment.apiUrl
@@ -22,12 +21,12 @@ export class ItemUsuarioComponent implements OnInit {
   numSeguidores:number
   numTrabajos:number
 
-  constructor(private router:Router, private usuarioService:UsuarioService, private seguimientoService:SeguimientoService, private trabajoService:TrabajoService) { }
+  constructor(private router:Router, private usuarioService:UsuarioService, private trabajoService:TrabajoService) { }
 
   async ngOnInit() {
     this.cargarFoto()
     this.estrellas = await this.usuarioService.getEstrellasTrabajador(this.trabajador._id)
-    this.numSeguidores = await this.seguimientoService.getNumSeguidores(this.trabajador._id)
+    this.numSeguidores = await this.usuarioService.getNumSeguidores(this.trabajador._id)
     this.numTrabajos = await this.trabajoService.getNumTrabajosUsuario(this.trabajador._id)
   }
 

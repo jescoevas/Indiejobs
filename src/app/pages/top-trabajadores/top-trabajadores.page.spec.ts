@@ -28,13 +28,15 @@ xdescribe('Top Trabajadores', () => {
     fixture.detectChanges();
   }));
 
-  it('Init', () => {
-    spyOn(servicio, "getMejoresTrabajadores")
+  it('Carga mejores trabajadores', () => {
+    const trabajadores:Usuario[] = [{_id:"34356"}, {_id:"143"}]
+    spyOn(servicio, "getMejoresTrabajadores").and.callFake(() => Promise.resolve(trabajadores))
     component.ngOnInit()
     expect(servicio.getMejoresTrabajadores).toHaveBeenCalled()
     fixture.whenStable().then(() => {
       expect(component.tipoActual).toBe("Local")
       expect(component.ordenActual).toBe("Estrellas")
+      expect(component.trabajadores.length).toBe(2)
     })
   });
 

@@ -50,7 +50,11 @@ const routes: Routes = [
   {
     path: 'follow/:id',
     loadChildren: () => import('./pages/follow/follow.module').then( m => m.FollowPageModule)
+  },  {
+    path: 'trabajos-valorados',
+    loadChildren: () => import('./pages/trabajos-valorados/trabajos-valorados.module').then( m => m.TrabajosValoradosPageModule)
   }
+
 
 ];
 @NgModule({
